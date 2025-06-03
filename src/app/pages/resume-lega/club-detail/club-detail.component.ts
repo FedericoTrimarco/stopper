@@ -5,11 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LegaService, Player, SquadApiResponse } from '../lega.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { ThemeToggleComponent } from '../../../shared/components/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-club-detail',
-  imports: [CommonModule, ThemeToggleComponent],
+  imports: [CommonModule],
   standalone: true,
   templateUrl: './club-detail.component.html',
   styleUrls: ['./club-detail.component.scss']
