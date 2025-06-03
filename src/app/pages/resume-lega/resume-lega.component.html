@@ -1,0 +1,168 @@
+<!--about start-->
+<section class="resume about" id="about">
+    <div class="container">
+
+        <!-- Statistiche generali -->
+        <div *ngIf="!isGlobalLoading" class="row mt-4 mb-4">
+            <div class="col-6">
+                <div class="stats-card">
+
+                    <div class="col-12 text-center mb-4">
+                        <img src="https://tmssl.akamaized.net//images/logo/header/it4a.png">
+                        <h4>SERIE D</h4>
+                    </div>
+                    <div style="background-color: #fff; height: 3px; margin:24px"></div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-number">{{ gironi.length }}</span>
+                            <span class="stat-label">Gironi</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">{{ totalSquadre }}</span>
+                            <span class="stat-label">Squadre Totali</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="stats-card">
+
+                    <div class="col-12 text-center mb-4">
+                        <h6>Ultime Notizie</h6>
+                    </div>
+
+                    <!-- Loading state -->
+                    <div *ngIf="isNewsLoading" class="text-center">
+                        <i class="fa fa-spinner fa-spin fa-2x text-success"></i>
+                        <p class="mt-2 mb-0">Caricamento notizie...</p>
+                    </div>
+
+                    <!-- Error state -->
+                    <div *ngIf="hasNewsError && !isNewsLoading" class="text-center py-3">
+                        <i class="fa fa-exclamation-triangle fa-2x text-warning mb-2"></i>
+                        <p class="mb-3">Impossibile caricare le notizie</p>
+                        <button class="btn btn-outline-success btn-sm" (click)="retryLoadNews()">
+                            <i class="fa fa-refresh"></i> Riprova
+                        </button>
+                    </div>
+
+                    <!-- News list -->
+                    <div *ngIf="!isNewsLoading && !hasNewsError" class="news-container">
+                        <div *ngFor="let news of newsData | slice:0:4; let last = last" class="news-item mb-1">
+                            <div class="row">
+                                <div class="col-3" *ngIf="news.image">
+                                    <img [src]="news.image" [alt]="news.title" class="news-image">
+                                </div>
+                                <div [class]="news.image ? 'col-9' : 'col-12'">
+                                    <h6 class="news-title">{{ news.title }}</h6>
+                                    <div class="news-meta text-primary">
+                                        <small class="text-white">
+                                            <i class="fa fa-calendar me-1"></i>
+                                            {{ news.date }}
+                                        </small>
+                                        <small class="text-white ms-2" *ngIf="news.source">
+                                            <i class="fa fa-newspaper me-1"></i>
+                                            {{ news.source }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- View more link -->
+                        <div class="text-center mt-3">
+                            <button class="btn btn-outline-success btn-sm" (click)="viewAllNews($event)">
+                                <i class="fa fa-arrow-right"></i> Vedi tutte le notizie
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Empty state -->
+                    <div *ngIf="!isNewsLoading && !hasNewsError && (!newsData)"
+                        class="text-center py-4">
+                        <i class="fa fa-newspaper fa-2x text-muted mb-2"></i>
+                        <p class="mb-0">Nessuna notizia disponibile</p>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+        <!-- Loading globale -->
+        <div *ngIf="isGlobalLoading" class="text-center py-5">
+            <i class="fa fa-spinner fa-spin fa-3x text-success"></i>
+            <h4 class="mt-3 text-white">Caricamento gironi Serie D...</h4>
+        </div>
+
+        <!-- Griglia dei gironi -->
+        <div *ngIf="!isGlobalLoading" class="row gironi-grid">
+            <div class="col-xl-4 col-lg-6 col-md-12 mb-4"
+                *ngFor="let girone of gironi; trackBy: trackByGirone; let i = index">
+
+                <!-- Card del singolo girone -->
+                <div class="squadre-card">
+
+                    <!-- Header del girone -->
+                    <div class="squadre-header">
+                        <span (click)="onGironeClick(girone.letter)" class="girone-name-clickable">
+                            <i class="fa fa-futbol"></i>
+                            {{ girone.name }}
+                        </span>
+                        <span class="header-icons">
+                            <span class="club-count" *ngIf="girone.clubs.length > 0">
+                                {{ girone.clubs.length }} squadre
+                            </span>
+                            <i class="fa fa-list" (click)="onGironeClick(girone.letter)" title="Vedi tutte le squadre"></i>
+                            <i class="fa fa-shirt"></i>
+                        </span>
+                    </div>
+
+                    <!-- Loading del singolo girone -->
+                    <div *ngIf="girone.isLoading" class="text-center py-4">
+                        <i class="fa fa-spinner fa-spin fa-2x text-success"></i>
+                        <p class="mt-2 mb-0">Caricamento...</p>
+                    </div>
+
+                    <!-- Errore del singolo girone -->
+                    <div *ngIf="girone.error && !girone.isLoading" class="text-center py-4">
+                        <i class="fa fa-exclamation-triangle fa-2x text-warning mb-3"></i>
+                        <p class="mb-3">{{ girone.error }}</p>
+                        <button class="btn btn-outline-success btn-sm" (click)="retryLoadGirone(i)">
+                            <i class="fa fa-refresh"></i> Riprova
+                        </button>
+                    </div>
+
+                    <!-- Lista squadre -->
+                    <div *ngIf="girone.clubs.length > 0 && !girone.isLoading" class="squadre-table">
+                        <div class="squadra-row" *ngFor="let club of girone.clubs; trackBy: trackByClub"
+                             (click)="onClubClick(club)">
+                            <div class="squadra-info">
+                                <img [src]="club.image" [alt]="club.name" (error)="onImageError($event)"
+                                    loading="lazy" />
+                                <span class="club-name">{{ club.name }}</span>
+                            </div>
+                            <div class="squadra-icons">
+                                <i class="fa fa-line-chart" title="Statistiche" (click)="onClubStatsClick(club, $event)"></i>
+                                <i class="fa fa-star" title="Preferiti" (click)="onClubFavoriteClick(club, $event)"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stato vuoto -->
+                    <div *ngIf="girone.clubs.length === 0 && !girone.isLoading && !girone.error"
+                        class="text-center py-4">
+                        <i class="fa fa-futbol fa-2x text-muted mb-3"></i>
+                        <p class="mb-0">Nessuna squadra trovata</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</section>
+<!--about end-->

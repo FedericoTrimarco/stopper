@@ -1,0 +1,14 @@
+@import 'theme/variable' ;
+/* $primary: $black;
+$secondary: $black;
+$dark: $black; 
+$light:#252525;*/
+$primary:  #00ff88;   
+$secondary:#1f1f2e;   
+$dark:     #0a0a1a;   
+$light:    #252525;
+$font-awesome: FontAwesome;
+@import 'theme/style';
+@import 'theme/theme-dark';
+@import 'theme/responsive';
+

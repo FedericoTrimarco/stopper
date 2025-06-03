@@ -1,0 +1,85 @@
+<!-- girone-detail.component.html -->
+<section class="girone-detail">
+  <div class="container">
+    
+    <!-- Header con breadcrumb -->
+    <div class="detail-header">
+      <button class="btn-back" (click)="onBackClick()">
+        <i class="fa fa-arrow-left"></i>
+        Torna alla Serie D
+      </button>
+      
+      <div class="girone-title">
+        <img src="https://tmssl.akamaized.net//images/logo/header/it4a.png" alt="Serie D">
+        <div class="title-info">
+          <h1>{{ gironeName }}</h1>
+          <p class="subtitle">{{ clubs.length }} squadre partecipanti</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+      <i class="fa fa-spinner fa-spin fa-3x text-success"></i>
+      <h3 class="mt-3">Caricamento squadre del {{ gironeName }}...</h3>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="hasError && !isLoading" class="error-container">
+      <i class="fa fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+      <h3 class="mb-3">{{ errorMessage }}</h3>
+      <button class="btn btn-success" (click)="retryLoad()">
+        <i class="fa fa-refresh"></i> Riprova
+      </button>
+    </div>
+
+    <!-- Clubs Grid -->
+    <div *ngIf="!isLoading && !hasError" class="clubs-grid">
+      <div class="clubs-header">
+        <h2>Squadre del {{ gironeName }}</h2>
+        <div class="clubs-count">{{ clubs.length }} squadre</div>
+      </div>
+
+      <div class="row">
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4"
+             *ngFor="let club of clubs; trackBy: trackByClub">
+          
+          <div class="club-card" (click)="onClubClick(club)">
+            <div class="club-image-container">
+              <img [src]="club.image" 
+                   [alt]="club.name"
+                   (error)="onImageError($event)"
+                   loading="lazy" />
+            </div>
+            
+            <div class="club-info">
+              <h3 class="club-name">{{ club.name }}</h3>
+              <div class="club-actions">
+                <i class="fa fa-users" title="Rosa"></i>
+                <i class="fa fa-chart-line" title="Statistiche"></i>
+                <i class="fa fa-calendar" title="Partite"></i>
+              </div>
+            </div>
+            
+            <div class="club-overlay">
+              <div class="overlay-content">
+                <i class="fa fa-arrow-right"></i>
+                <span>Vai alla squadra</span>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!isLoading && !hasError && clubs.length === 0" class="empty-container">
+      <i class="fa fa-futbol fa-3x text-muted mb-3"></i>
+      <h3>Nessuna squadra trovata</h3>
+      <p>Non sono state trovate squadre per questo girone.</p>
+    </div>
+
+  </div>
+</section>
+

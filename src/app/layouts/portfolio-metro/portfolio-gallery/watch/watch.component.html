@@ -1,0 +1,11 @@
+<div class="row m-0">
+  @for(img of imageData; track img){
+    <figure class="my-app-custom-image-with-desc p-width isotopeSelector" itemprop="associatedMedia">
+      <div class="overlay">
+        <a href="javascript:void(0)" itemprop="contentUrl">
+          <img [src]="img.srcUrl" class="img-fluid" />
+        </a>
+      </div>
+    </figure>
+  }
+</div>

@@ -1,0 +1,30 @@
+.header {
+  display: block;
+  position: relative;
+  padding: 0 !important;
+  overflow: hidden;
+}
+.header .bg {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    height: 50vh !important;
+}
+.header .bg-stopper {
+  background: linear-gradient(rgba(10, 20, 40, 0.8), rgba(10, 20, 40, 0.8)),
+    url("../images/stopper/sample_header.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: block;
+  position: relative;
+  padding: 0 !important;
+  overflow: hidden;
+  .center-text {
+    height: calc(50vh - 83px);
+    margin-top: 83px;
+}
+}
+header.resume nav ul li a:hover {
+    color: #1ecb6b !important;
+}

@@ -1,0 +1,156 @@
+<section class="club-detail">
+  <div class="container">
+    
+    <!-- Header con breadcrumb -->
+    <div class="detail-header">
+      <button class="btn-back" (click)="onBackClick()">
+        <i class="fa fa-arrow-left"></i>
+        Torna alla Serie D
+      </button>
+      
+      <div *ngIf="clubInfo && !isLoading" class="club-header">
+        <div class="club-main-info">
+          <img [src]="clubInfo.image" 
+               [alt]="clubInfo.name"
+               (error)="onImageError($event)"
+               class="club-logo">
+          <div class="club-title-info">
+            <h1>{{ clubInfo.name }}</h1>
+            <div class="club-meta">
+              <span *ngIf="clubInfo.founded" class="meta-item">
+                <i class="fa fa-calendar"></i>
+                Fondato nel {{ clubInfo.founded }}
+              </span>
+              <span *ngIf="clubInfo.stadium" class="meta-item">
+                <i class="fa fa-map-marker"></i>
+                {{ clubInfo.stadium }}
+              </span>
+              <span *ngIf="clubInfo.capacity" class="meta-item">
+                <i class="fa fa-users"></i>
+                {{ clubInfo.capacity | number }} posti
+              </span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="club-stats">
+          <div class="stat-card">
+            <span class="stat-number">{{ players.length }}</span>
+            <span class="stat-label">Giocatori</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-number">{{ seasonId }}</span>
+            <span class="stat-label">Stagione</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+      <i class="fa fa-spinner fa-spin fa-3x text-success"></i>
+      <h3 class="mt-3">Caricamento rosa della squadra...</h3>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="hasError && !isLoading" class="error-container">
+      <i class="fa fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+      <h3 class="mb-3">{{ errorMessage }}</h3>
+      <button class="btn btn-success" (click)="retryLoad()">
+        <i class="fa fa-refresh"></i> Riprova
+      </button>
+    </div>
+
+    <!-- Squad Content -->
+    <div *ngIf="!isLoading && !hasError" class="squad-content">
+      
+      <!-- Filtri -->
+      <div class="squad-filters">
+        <div class="filters-row">
+          <div class="filter-group">
+            <label for="position-filter">Posizione:</label>
+            <select id="position-filter" 
+                    [value]="selectedPosition" 
+                    (change)="onPositionChange($event)"
+                    class="form-select">
+              <option *ngFor="let pos of positions" [value]="pos.value">
+                {{ pos.label }}
+              </option>
+            </select>
+          </div>
+          
+          <div class="filter-group">
+            <label for="search-filter">Cerca giocatore:</label>
+            <input id="search-filter"
+                   type="text"
+                   [value]="searchTerm"
+                   (input)="onSearchChange($event)"
+                   placeholder="Nome o nazionalità..."
+                   class="form-control">
+          </div>
+        </div>
+        
+        <div class="results-info">
+          <span>{{ filteredPlayers.length }} giocatori trovati</span>
+        </div>
+      </div>
+
+      <!-- Players Grid -->
+      <div class="players-section">
+        <!-- Raggruppamento per posizione -->
+        <div *ngFor="let position of Object.keys(playersByPosition)" class="position-group">
+          <h3 class="position-title">
+            <i class="fa fa-users"></i>
+            {{ position }}
+            <span class="position-count">({{ playersByPosition[position].length }})</span>
+          </h3>
+          
+          <div class="players-grid">
+            <div class="player-card" 
+                 *ngFor="let player of playersByPosition[position]; trackBy: trackByPlayer"
+                 (click)="onPlayerClick(player)">
+              
+              <div class="player-image-container">
+                <img [src]="player.image" 
+                     [alt]="player.name"
+                     (error)="onImageError($event)"
+                     loading="lazy">
+                <div *ngIf="player.shirtNumber" class="shirt-number">
+                  {{ player.shirtNumber }}
+                </div>
+              </div>
+              
+              <div class="player-info">
+                <h4 class="player-name">{{ player.name }}</h4>
+                <div class="player-details">
+                  <span class="player-position">{{ player.position }}</span>
+                  <span class="player-age" *ngIf="player.age">{{ player.age }} anni</span>
+                </div>
+                <div class="player-meta">
+                  <span class="player-nationality" *ngIf="player.nationality">
+                    <i class="fa fa-flag"></i>
+                    {{ player.nationality }}
+                  </span>
+                  <span class="player-value" *ngIf="player.marketValue">
+                    <i class="fa fa-euro"></i>
+                    {{ player.marketValue }}
+                  </span>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div *ngIf="filteredPlayers.length === 0" class="empty-container">
+        <i class="fa fa-search fa-3x text-muted mb-3"></i>
+        <h3>Nessun giocatore trovato</h3>
+        <p>Prova a modificare i filtri di ricerca.</p>
+      </div>
+
+    </div>
+
+  </div>
+</section>

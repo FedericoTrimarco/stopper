@@ -1,0 +1,8 @@
+#nav-component{
+    position: fixed;
+    transition: all .3s ease-in-out;
+
+    &.scrolled{
+        background-color: #191f3c;
+    }
+}
