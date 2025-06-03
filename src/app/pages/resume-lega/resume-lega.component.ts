@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
-import { LegaService } from './lega.service';
-import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
+import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
-import { Club, ApiResponse } from './lega.service';
+import { LegaService, Club, ApiResponse } from './lega.service';
 
 interface Girone {
   letter: string;
@@ -18,10 +16,10 @@ interface Girone {
 
 @Component({
   selector: 'app-resume-lega',
-  imports: [CommonModule, RouterModule, ThemeToggleComponent],
+  imports: [CommonModule],
+  standalone: true,
   templateUrl: './resume-lega.component.html',
-  styleUrls: ['./resume-lega.component.scss'],
-  providers: [LegaService]
+  styleUrls: ['./resume-lega.component.scss']
 })
 export class ResumeLegaComponent implements OnInit {
   // News properties
@@ -50,11 +48,11 @@ export class ResumeLegaComponent implements OnInit {
   loadNews(): void {
     this.isNewsLoading = true;
     this.hasNewsError = false;
-
+    
     this.legaService.loadNewsLega().subscribe({
       next: (response) => {
         console.log('API Response:', response);
-
+        
         // Adatta questa parte in base alla struttura della risposta API
         if (response && response.data && response.data.news) {
           this.newsData = response.data.news.map((item: any) => ({
@@ -66,7 +64,7 @@ export class ResumeLegaComponent implements OnInit {
         } else {
           this.newsData = response || [];
         }
-
+        
         this.isNewsLoading = false;
         console.log('News processate:', this.newsData);
       },
