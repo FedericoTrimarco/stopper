@@ -5,10 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LegaService, Player, SquadApiResponse } from '../lega.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { ThemeToggleComponent } from '../../../shared/components/theme-toggle/theme-toggle.component';
 
 @Component({
   selector: 'app-club-detail',
-  imports: [CommonModule],
+  imports: [CommonModule, ThemeToggleComponent],
   standalone: true,
   templateUrl: './club-detail.component.html',
   styleUrls: ['./club-detail.component.scss']
@@ -17,36 +18,27 @@ export class ClubDetailComponent implements OnInit {
   clubId: string = '';
   seasonId: string = '2024';
   Object = Object;
-
+  
   // Dati del club
   clubInfo: any = null;
   players: Player[] = [];
-
+  
   // Stati di caricamento
   isLoading: boolean = true;
   hasError: boolean = false;
   errorMessage: string = '';
-
+  
   // Filtri per i giocatori
   selectedPosition: string = 'all';
   searchTerm: string = '';
-
+  
   // Posizioni disponibili
   positions = [
     { value: 'all', label: 'Tutte le posizioni' },
-    { value: 'Torwart', label: 'Portiere' },
-    { value: 'Innenverteidiger', label: 'Difensore centrale' },
-    { value: 'Rechtsverteidiger', label: 'Difensore destro' },
-    { value: 'Linksverteidiger', label: 'Difensore sinistro' },
-    { value: 'Defensives Mittelfeld', label: 'Centrocampista difensivo' },
-    { value: 'Zentrales Mittelfeld', label: 'Centrocampista centrale' },
-    { value: 'Rechtes Mittelfeld', label: 'Centrocampista destro' },
-    { value: 'Linkes Mittelfeld', label: 'Centrocampista sinistro' },
-    { value: 'Offensives Mittelfeld', label: 'Trequartista' },
-    { value: 'Rechtsaußen', label: 'Ala destra' },
-    { value: 'Linksaußen', label: 'Ala sinistra' },
-    { value: 'Mittelstürmer', label: 'Centravanti' },
-    { value: 'Hängende Spitze', label: 'Seconda punta' }
+    { value: 'Goalkeeper', label: 'Portiere' },
+    { value: 'Defender', label: 'Difensore' },
+    { value: 'Midfielder', label: 'Centrocampista' },
+    { value: 'Forward', label: 'Attaccante' }
   ];
 
   constructor(
@@ -65,7 +57,7 @@ export class ClubDetailComponent implements OnInit {
   loadClubData(): void {
     this.isLoading = true;
     this.hasError = false;
-
+    
     this.legaService.loadClubSquad(this.clubId, this.seasonId).pipe(
       catchError(error => {
         console.error('Errore nel caricamento della squadra:', error);
@@ -88,35 +80,34 @@ export class ClubDetailComponent implements OnInit {
 
   get filteredPlayers(): Player[] {
     let filtered = this.players;
-
+    
     // Filtro per posizione
     if (this.selectedPosition !== 'all') {
-      filtered = filtered.filter(player => player.positions?.first?.name === this.selectedPosition);
+      filtered = filtered.filter(player => player.position === this.selectedPosition);
     }
-
+    
     // Filtro per ricerca
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase();
       filtered = filtered.filter(player => 
         player.name.toLowerCase().includes(term) ||
-        (player.nationalities && player.nationalities.some((n: any) => n.name.toLowerCase().includes(term)))
+        player.nationality.toLowerCase().includes(term)
       );
     }
-
+    
     return filtered;
   }
 
   get playersByPosition(): { [key: string]: Player[] } {
     const grouped: { [key: string]: Player[] } = {};
-
+    
     this.filteredPlayers.forEach(player => {
-      const position = player.positions?.first?.name || 'Unknown';
-      if (!grouped[position]) {
-        grouped[position] = [];
+      if (!grouped[player.position]) {
+        grouped[player.position] = [];
       }
-      grouped[position].push(player);
+      grouped[player.position].push(player);
     });
-
+    
     return grouped;
   }
 
@@ -148,4 +139,3 @@ export class ClubDetailComponent implements OnInit {
     this.searchTerm = event.target.value;
   }
 }
-

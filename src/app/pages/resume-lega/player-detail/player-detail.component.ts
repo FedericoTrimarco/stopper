@@ -2,10 +2,11 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { LegaService } from "../lega.service";
 import { Location, CommonModule } from "@angular/common";
+import { ThemeToggleComponent } from "../../../shared/components/theme-toggle/theme-toggle.component";
 
 @Component({
   selector: "app-player-detail",
-  imports: [RouterModule, CommonModule],
+  imports: [RouterModule, CommonModule, ThemeToggleComponent],
   templateUrl: "./player-detail.component.html",
   styleUrl: "./player-detail.component.scss",
   providers: [LegaService],
