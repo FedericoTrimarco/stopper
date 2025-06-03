@@ -3,12 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LegaService, Player, SquadApiResponse } from '../lega.service';
+import { ThemeToggleComponent } from '../../shared/components/theme-toggle/theme-toggle.component';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Component({
   selector: 'app-club-detail',
-  imports: [CommonModule],
+  imports: [CommonModule, ThemeToggleComponent],
   standalone: true,
   templateUrl: './club-detail.component.html',
   styleUrls: ['./club-detail.component.scss']
@@ -34,10 +35,19 @@ export class ClubDetailComponent implements OnInit {
   // Posizioni disponibili
   positions = [
     { value: 'all', label: 'Tutte le posizioni' },
-    { value: 'Goalkeeper', label: 'Portiere' },
-    { value: 'Defender', label: 'Difensore' },
-    { value: 'Midfielder', label: 'Centrocampista' },
-    { value: 'Forward', label: 'Attaccante' }
+    { value: 'Torwart', label: 'Portiere' },
+    { value: 'Innenverteidiger', label: 'Difensore centrale' },
+    { value: 'Rechtsverteidiger', label: 'Difensore destro' },
+    { value: 'Linksverteidiger', label: 'Difensore sinistro' },
+    { value: 'Defensives Mittelfeld', label: 'Centrocampista difensivo' },
+    { value: 'Zentrales Mittelfeld', label: 'Centrocampista centrale' },
+    { value: 'Rechtes Mittelfeld', label: 'Centrocampista destro' },
+    { value: 'Linkes Mittelfeld', label: 'Centrocampista sinistro' },
+    { value: 'Offensives Mittelfeld', label: 'Trequartista' },
+    { value: 'Rechtsaußen', label: 'Ala destra' },
+    { value: 'Linksaußen', label: 'Ala sinistra' },
+    { value: 'Mittelstürmer', label: 'Centravanti' },
+    { value: 'Hängende Spitze', label: 'Seconda punta' }
   ];
 
   constructor(
@@ -90,7 +100,7 @@ export class ClubDetailComponent implements OnInit {
       const term = this.searchTerm.toLowerCase();
       filtered = filtered.filter(player => 
         player.name.toLowerCase().includes(term) ||
-        (player.nationalities && player.nationalities.some(n => n.name.toLowerCase().includes(term)))
+        (player.nationalities && player.nationalities.some((n: any) => n.name.toLowerCase().includes(term)))
       );
     }
 
@@ -140,36 +150,3 @@ export class ClubDetailComponent implements OnInit {
   }
 }
 
-export interface Player {
-  id: string;
-  name: string;
-  position?: string;
-  age: number;
-  nationality?: string;
-  marketValue: {
-    value: number;
-    currency: string;
-    progression: any;
-  };
-  image: string;
-  shirtNumber?: string;
-  height?: string;
-  foot?: string;
-  isGoalkeeper?: boolean;
-  captain?: boolean;
-  positions?: {
-    first?: {
-      id: string;
-      name: string;
-      shortName: string;
-      group: string;
-    };
-    second?: any;
-    third?: any;
-  };
-  nationalities?: Array<{
-    id: number;
-    name: string;
-    image: string;
-  }>;
-}

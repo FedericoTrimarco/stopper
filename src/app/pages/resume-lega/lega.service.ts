@@ -25,12 +25,44 @@ export interface NewsItem {
 export interface Player {
   id: string;
   name: string;
-  position: string;
-  age: number;
-  nationality: string;
-  marketValue: string;
   image: string;
-  shirtNumber?: number;
+  imageLarge?: string;
+  imageSource?: string;
+  shirtNumber?: string;
+  age: number;
+  dateOfBirth: number;
+  heroImage?: string;
+  isGoalkeeper?: boolean;
+  height?: string;
+  foot?: string;
+  injury?: any;
+  suspension?: any;
+  joined?: number;
+  contractUntil?: number;
+  captain?: boolean;
+  lastClub?: any;
+  isLoan?: any;
+  wasLoan?: any;
+  positions?: {
+    first?: {
+      id: string;
+      name: string;
+      shortName: string;
+      group: string;
+    };
+    second?: any;
+    third?: any;
+  };
+  nationalities?: Array<{
+    id: number;
+    name: string;
+    image: string;
+  }>;
+  marketValue?: {
+    value: number;
+    currency: string;
+    progression?: any;
+  };
 }
 
 export interface SquadApiResponse {
