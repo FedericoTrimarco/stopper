@@ -11,6 +11,11 @@ $bg-light: #f8f9fa;
 
   .detail-header {
     margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
 
     .btn-back {
       background: transparent;
