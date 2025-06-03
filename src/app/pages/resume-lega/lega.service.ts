@@ -25,12 +25,43 @@ export interface NewsItem {
 export interface Player {
   id: string;
   name: string;
-  position: string;
-  age: number;
-  nationality: string;
-  marketValue: string;
   image: string;
-  shirtNumber?: number;
+  shirtNumber: string;
+  age: number;
+  height: string;
+  foot: string;
+  positions: {
+    first: {
+      id: string;
+      name: string;
+      shortName: string;
+      group: string;
+    };
+    second?: {
+      id: string;
+      name: string;
+      shortName: string;
+      group: string;
+    };
+    third?: {
+      id: string;
+      name: string;
+      shortName: string;
+      group: string;
+    };
+  };
+  nationalities: Array<{
+    id: number;
+    name: string;
+    image: string;
+  }>;
+  marketValue: {
+    value: number;
+    currency: string;
+  };
+  isGoalkeeper: boolean;
+  captain: boolean;
+  isLoan: boolean;
 }
 
 export interface SquadApiResponse {

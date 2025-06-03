@@ -117,7 +117,7 @@ export class ClubDetailComponent implements OnInit {
           name: 'Squadra', 
           image: 'assets/images/default-club-logo.png' 
         };
-        this.players = response.data.squad as SquadPlayer[];
+        this.players = response.data.squad;
       } else if (!this.hasError) {
         this.players = [];
       }
