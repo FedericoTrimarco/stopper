@@ -1,1 +1,251 @@
-<p>player-detail works!</p>
+
+<section class="player-detail bg-pink">
+  <div class="container">
+    
+    <!-- Header con breadcrumb -->
+    <div class="detail-header">
+      <button class="btn-back" (click)="onBackClick()">
+        <i class="fa fa-arrow-left"></i>
+        Indietro
+      </button>
+    </div>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="loading-container">
+      <div class="loader-wrapper">
+        <div class="loader">
+          <div></div><div></div><div></div>
+          <div></div><div></div><div></div>
+          <div></div><div></div><div></div>
+        </div>
+      </div>
+      <h3 class="mt-3 text-center">Caricamento profilo giocatore...</h3>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="hasError && !isLoading" class="error-container">
+      <div class="center-content">
+        <i class="fa fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+        <h3 class="mb-3">{{ errorMessage }}</h3>
+        <button class="btn btn-default primary-btn" (click)="loadPlayerProfile()">
+          <i class="fa fa-refresh"></i> Riprova
+        </button>
+      </div>
+    </div>
+
+    <!-- Player Profile -->
+    <div *ngIf="!isLoading && !hasError && playerDetail" class="player-profile">
+      
+      <!-- Player Header -->
+      <div class="player-header">
+        <div class="row">
+          <div class="col-lg-4 col-md-6">
+            <div class="player-image-section">
+              <div class="player-main-image">
+                <img [src]="playerDetail.playerImage" 
+                     [alt]="playerDetail.playerName"
+                     (error)="onImageError($event)"
+                     class="player-photo">
+                <div class="shirt-number-badge" *ngIf="playerDetail.playerShirtNumber">
+                  {{ playerDetail.playerShirtNumber }}
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-8 col-md-6">
+            <div class="player-main-info">
+              <div class="player-title">
+                <h1>{{ playerDetail.playerName }}</h1>
+                <h6 *ngIf="playerDetail.playerFullName !== playerDetail.playerName" class="full-name">
+                  {{ playerDetail.playerFullName }}
+                </h6>
+                <div class="position-info">
+                  <span class="main-position">{{ playerDetail.playerMainPosition }}</span>
+                  <span *ngIf="playerDetail.playerSecondPosition" class="second-position">
+                    / {{ playerDetail.playerSecondPosition }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Club Info -->
+              <div class="current-club">
+                <div class="club-badge">
+                  <img [src]="playerDetail.clubImage" 
+                       [alt]="playerDetail.club"
+                       (error)="onImageError($event)">
+                  <div class="club-details">
+                    <h4>{{ playerDetail.club }}</h4>
+                    <div class="league-info">
+                      <img [src]="playerDetail.leagueLogo" 
+                           [alt]="playerDetail.league"
+                           class="league-logo">
+                      <span>{{ playerDetail.league }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Market Value -->
+              <div class="market-value" *ngIf="playerDetail.marketValue">
+                <div class="value-card">
+                  <h3 class="value-amount">
+                    {{ playerDetail.marketValue }}{{ playerDetail.marketValueCurrency }}
+                    <span class="value-unit">{{ playerDetail.marketValueNumeral }}</span>
+                  </h3>
+                  <p class="value-label">Valore di Mercato</p>
+                  <small *ngIf="playerDetail.marketValueLastChange" class="last-update">
+                    Ultimo aggiornamento: {{ playerDetail.marketValueLastChange }}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Player Stats Grid -->
+      <div class="player-stats-section">
+        <div class="row">
+          
+          <!-- Personal Info -->
+          <div class="col-lg-6 col-md-12">
+            <div class="info-card">
+              <h3 class="card-title">
+                <i class="fa fa-user"></i>
+                Informazioni Personali
+              </h3>
+              <div class="info-grid">
+                <div class="info-item" *ngIf="playerDetail.age">
+                  <span class="info-label">Età:</span>
+                  <span class="info-value">{{ playerDetail.age }} anni</span>
+                </div>
+                <div class="info-item" *ngIf="playerDetail.dateOfBirth">
+                  <span class="info-label">Data di nascita:</span>
+                  <span class="info-value">{{ playerDetail.dateOfBirth }}</span>
+                </div>
+                <div class="info-item" *ngIf="playerDetail.birthplace">
+                  <span class="info-label">Luogo di nascita:</span>
+                  <span class="info-value">
+                    <img [src]="playerDetail.countryImage" 
+                         [alt]="playerDetail.country"
+                         class="country-flag">
+                    {{ playerDetail.birthplace }}, {{ playerDetail.country }}
+                  </span>
+                </div>
+                <div class="info-item" *ngIf="playerDetail.height">
+                  <span class="info-label">Altezza:</span>
+                  <span class="info-value">{{ playerDetail.height }} m</span>
+                </div>
+                <div class="info-item" *ngIf="playerDetail.foot">
+                  <span class="info-label">Piede:</span>
+                  <span class="info-value">{{ playerDetail.foot }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Career Info -->
+          <div class="col-lg-6 col-md-12">
+            <div class="info-card">
+              <h3 class="card-title">
+                <i class="fa fa-futbol-o"></i>
+                Informazioni Carriera
+              </h3>
+              <div class="info-grid">
+                <div class="info-item" *ngIf="playerDetail.positionGroup">
+                  <span class="info-label">Gruppo posizione:</span>
+                  <span class="info-value">{{ playerDetail.positionGroup }}</span>
+                </div>
+                <div class="info-item" *ngIf="playerDetail.contractExpiryDate">
+                  <span class="info-label">Contratto fino al:</span>
+                  <span class="info-value">{{ playerDetail.contractExpiryDate }}</span>
+                </div>
+                <div class="info-item" *ngIf="playerDetail.agent">
+                  <span class="info-label">Agente:</span>
+                  <span class="info-value">{{ playerDetail.agent }}</span>
+                </div>
+                <div class="info-item" *ngIf="playerDetail.outfitter">
+                  <span class="info-label">Sponsor tecnico:</span>
+                  <span class="info-value">{{ playerDetail.outfitter }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- International Career (if exists) -->
+      <div *ngIf="playerDetail.internationalTeam" class="international-section">
+        <div class="info-card">
+          <h3 class="card-title">
+            <i class="fa fa-globe"></i>
+            Carriera Internazionale
+          </h3>
+          <div class="international-info">
+            <div class="team-badge">
+              <img [src]="playerDetail.internationalTeamImage" 
+                   [alt]="playerDetail.internationalTeam">
+              <div class="team-details">
+                <h4>{{ playerDetail.internationalTeam }}</h4>
+                <div class="international-stats">
+                  <span *ngIf="playerDetail.internationalGames" class="stat">
+                    <strong>{{ playerDetail.internationalGames }}</strong> presenze
+                  </span>
+                  <span *ngIf="playerDetail.internationalGoals" class="stat">
+                    <strong>{{ playerDetail.internationalGoals }}</strong> gol
+                  </span>
+                  <span *ngIf="playerDetail.internationalShirtNumber" class="stat">
+                    Maglia n. <strong>{{ playerDetail.internationalShirtNumber }}</strong>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Section -->
+      <div class="status-section" *ngIf="playerDetail.injury?.title || playerDetail.absence?.title">
+        <div class="row">
+          <!-- Injury Status -->
+          <div class="col-md-6" *ngIf="playerDetail.injury?.title">
+            <div class="status-card injury">
+              <h4 class="status-title">
+                <i class="fa fa-medkit"></i>
+                Stato Infortunio
+              </h4>
+              <div class="status-content">
+                <p class="injury-title">{{ playerDetail.injury.title }}</p>
+                <p *ngIf="playerDetail.injury.until !== '-'" class="injury-until">
+                  Fino al: {{ playerDetail.injury.until }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Absence Status -->
+          <div class="col-md-6" *ngIf="playerDetail.absence?.title">
+            <div class="status-card absence">
+              <h4 class="status-title">
+                <i class="fa fa-exclamation-triangle"></i>
+                Assenza
+              </h4>
+              <div class="status-content">
+                <p class="absence-title">{{ playerDetail.absence.title }}</p>
+                <p *ngIf="playerDetail.absence.until !== '-'" class="absence-until">
+                  Fino al: {{ playerDetail.absence.until }}
+                </p>
+                <p *ngIf="playerDetail.absence.matches" class="absence-matches">
+                  Partite saltate: {{ playerDetail.absence.matches }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
