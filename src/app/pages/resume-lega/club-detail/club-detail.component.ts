@@ -2,9 +2,52 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LegaService, Player, SquadApiResponse } from '../lega.service';
+import { LegaService } from '../lega.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
+
+// Interface per il nuovo formato dei dati
+interface SquadPlayer {
+  id: string;
+  name: string;
+  image: string;
+  shirtNumber: string;
+  age: number;
+  height: string;
+  foot: string;
+  positions: {
+    first: {
+      id: string;
+      name: string;
+      shortName: string;
+      group: string;
+    };
+    second?: {
+      id: string;
+      name: string;
+      shortName: string;
+      group: string;
+    };
+    third?: {
+      id: string;
+      name: string;
+      shortName: string;
+      group: string;
+    };
+  };
+  nationalities: Array<{
+    id: number;
+    name: string;
+    image: string;
+  }>;
+  marketValue: {
+    value: number;
+    currency: string;
+  };
+  isGoalkeeper: boolean;
+  captain: boolean;
+  isLoan: boolean;
+}
 
 @Component({
   selector: 'app-club-detail',
@@ -20,7 +63,7 @@ export class ClubDetailComponent implements OnInit {
   
   // Dati del club
   clubInfo: any = null;
-  players: Player[] = [];
+  players: SquadPlayer[] = [];
   
   // Stati di caricamento
   isLoading: boolean = true;
@@ -31,13 +74,13 @@ export class ClubDetailComponent implements OnInit {
   selectedPosition: string = 'all';
   searchTerm: string = '';
   
-  // Posizioni disponibili
+  // Posizioni disponibili (aggiornate per il nuovo formato)
   positions = [
     { value: 'all', label: 'Tutte le posizioni' },
-    { value: 'Goalkeeper', label: 'Portiere' },
-    { value: 'Defender', label: 'Difensore' },
-    { value: 'Midfielder', label: 'Centrocampista' },
-    { value: 'Forward', label: 'Attaccante' }
+    { value: 'Torwart', label: 'Portiere' },
+    { value: 'Abwehr', label: 'Difensore' },
+    { value: 'Mittelfeld', label: 'Centrocampista' },
+    { value: 'Sturm', label: 'Attaccante' }
   ];
 
   constructor(
@@ -68,21 +111,30 @@ export class ClubDetailComponent implements OnInit {
         this.isLoading = false;
       })
     ).subscribe(response => {
-      if (response?.data) {
-        this.clubInfo = response.data.club;
-        this.players = response.data.squad || [];
+      if (response?.data?.squad) {
+        // Processa i dati del club se disponibili
+        this.clubInfo = response.data.club || { 
+          name: 'Squadra', 
+          image: 'assets/images/default-club-logo.png' 
+        };
+        this.players = response.data.squad;
       } else if (!this.hasError) {
         this.players = [];
       }
     });
   }
 
-  get filteredPlayers(): Player[] {
+  get filteredPlayers(): SquadPlayer[] {
     let filtered = this.players;
     
     // Filtro per posizione
     if (this.selectedPosition !== 'all') {
-      filtered = filtered.filter(player => player.position === this.selectedPosition);
+      filtered = filtered.filter(player => {
+        if (!player.positions) return false;
+        return player.positions.first?.group === this.selectedPosition ||
+               player.positions.second?.group === this.selectedPosition ||
+               player.positions.third?.group === this.selectedPosition;
+      });
     }
     
     // Filtro per ricerca
@@ -90,21 +142,24 @@ export class ClubDetailComponent implements OnInit {
       const term = this.searchTerm.toLowerCase();
       filtered = filtered.filter(player => 
         player.name.toLowerCase().includes(term) ||
-        player.nationality.toLowerCase().includes(term)
+        player.nationalities?.some(nat => nat.name.toLowerCase().includes(term))
       );
     }
     
     return filtered;
   }
 
-  get playersByPosition(): { [key: string]: Player[] } {
-    const grouped: { [key: string]: Player[] } = {};
+  get playersByPosition(): { [key: string]: SquadPlayer[] } {
+    const grouped: { [key: string]: SquadPlayer[] } = {};
     
     this.filteredPlayers.forEach(player => {
-      if (!grouped[player.position]) {
-        grouped[player.position] = [];
+      if (player.positions?.first) {
+        const positionGroup = player.positions.first.group;
+        if (!grouped[positionGroup]) {
+          grouped[positionGroup] = [];
+        }
+        grouped[positionGroup].push(player);
       }
-      grouped[player.position].push(player);
     });
     
     return grouped;
@@ -114,7 +169,7 @@ export class ClubDetailComponent implements OnInit {
     this.router.navigate(['/serie-d']);
   }
 
-  onPlayerClick(player: Player): void {
+  onPlayerClick(player: SquadPlayer): void {
     this.router.navigate(['resume/player-detail', player.id]);
   }
 
@@ -122,7 +177,7 @@ export class ClubDetailComponent implements OnInit {
     event.target.src = 'assets/images/default-player.png';
   }
 
-  trackByPlayer(index: number, player: Player): string {
+  trackByPlayer(index: number, player: SquadPlayer): string {
     return player.id || player.name;
   }
 
@@ -136,5 +191,16 @@ export class ClubDetailComponent implements OnInit {
 
   onSearchChange(event: any): void {
     this.searchTerm = event.target.value;
+  }
+
+  // Helper per tradurre i gruppi di posizione
+  getPositionGroupLabel(group: string): string {
+    const translations: { [key: string]: string } = {
+      'Torwart': 'Portieri',
+      'Abwehr': 'Difensori', 
+      'Mittelfeld': 'Centrocampisti',
+      'Sturm': 'Attaccanti'
+    };
+    return translations[group] || group;
   }
 }
