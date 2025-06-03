@@ -17,20 +17,20 @@ export class ClubDetailComponent implements OnInit {
   clubId: string = '';
   seasonId: string = '2024';
   Object = Object;
-  
+
   // Dati del club
   clubInfo: any = null;
   players: Player[] = [];
-  
+
   // Stati di caricamento
   isLoading: boolean = true;
   hasError: boolean = false;
   errorMessage: string = '';
-  
+
   // Filtri per i giocatori
   selectedPosition: string = 'all';
   searchTerm: string = '';
-  
+
   // Posizioni disponibili
   positions = [
     { value: 'all', label: 'Tutte le posizioni' },
@@ -56,7 +56,7 @@ export class ClubDetailComponent implements OnInit {
   loadClubData(): void {
     this.isLoading = true;
     this.hasError = false;
-    
+
     this.legaService.loadClubSquad(this.clubId, this.seasonId).pipe(
       catchError(error => {
         console.error('Errore nel caricamento della squadra:', error);
@@ -79,34 +79,35 @@ export class ClubDetailComponent implements OnInit {
 
   get filteredPlayers(): Player[] {
     let filtered = this.players;
-    
+
     // Filtro per posizione
     if (this.selectedPosition !== 'all') {
-      filtered = filtered.filter(player => player.position === this.selectedPosition);
+      filtered = filtered.filter(player => player.positions?.first?.name === this.selectedPosition);
     }
-    
+
     // Filtro per ricerca
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase();
       filtered = filtered.filter(player => 
         player.name.toLowerCase().includes(term) ||
-        player.nationality.toLowerCase().includes(term)
+        (player.nationalities && player.nationalities.some(n => n.name.toLowerCase().includes(term)))
       );
     }
-    
+
     return filtered;
   }
 
   get playersByPosition(): { [key: string]: Player[] } {
     const grouped: { [key: string]: Player[] } = {};
-    
+
     this.filteredPlayers.forEach(player => {
-      if (!grouped[player.position]) {
-        grouped[player.position] = [];
+      const position = player.positions?.first?.name || 'Unknown';
+      if (!grouped[position]) {
+        grouped[position] = [];
       }
-      grouped[player.position].push(player);
+      grouped[position].push(player);
     });
-    
+
     return grouped;
   }
 
@@ -137,4 +138,38 @@ export class ClubDetailComponent implements OnInit {
   onSearchChange(event: any): void {
     this.searchTerm = event.target.value;
   }
+}
+
+export interface Player {
+  id: string;
+  name: string;
+  position?: string;
+  age: number;
+  nationality?: string;
+  marketValue: {
+    value: number;
+    currency: string;
+    progression: any;
+  };
+  image: string;
+  shirtNumber?: string;
+  height?: string;
+  foot?: string;
+  isGoalkeeper?: boolean;
+  captain?: boolean;
+  positions?: {
+    first?: {
+      id: string;
+      name: string;
+      shortName: string;
+      group: string;
+    };
+    second?: any;
+    third?: any;
+  };
+  nationalities?: Array<{
+    id: number;
+    name: string;
+    image: string;
+  }>;
 }
