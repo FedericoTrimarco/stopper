@@ -113,11 +113,12 @@ $bg-light: #f8f9fa;
 
   .player-profile {
     .player-header {
-      background: $white;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
       border-radius: 15px;
       padding: 40px;
       margin-bottom: 30px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
 
       .player-image-section {
         text-align: center;
@@ -161,12 +162,13 @@ $bg-light: #f8f9fa;
 
           h1 {
             margin-bottom: 10px;
-            color: $primary;
+            color: #ffffff;
             font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
           }
 
           .full-name {
-            color: $secondary;
+            color: #b8c5d6;
             margin-bottom: 15px;
             font-style: italic;
           }
@@ -195,9 +197,11 @@ $bg-light: #f8f9fa;
           .club-badge {
             display: flex;
             align-items: center;
-            background: $bg-light;
+            background: rgba(255, 255, 255, 0.05);
             padding: 20px;
             border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
 
             img {
               width: 60px;
@@ -209,7 +213,7 @@ $bg-light: #f8f9fa;
             .club-details {
               h4 {
                 margin-bottom: 10px;
-                color: $primary;
+                color: #ffffff;
               }
 
               .league-info {
@@ -223,7 +227,7 @@ $bg-light: #f8f9fa;
                 }
 
                 span {
-                  color: $secondary;
+                  color: #b8c5d6;
                   font-size: 14px;
                 }
               }
@@ -271,22 +275,25 @@ $bg-light: #f8f9fa;
     }
 
     .info-card {
-      background: $white;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
       border-radius: 15px;
       padding: 30px;
       margin-bottom: 30px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
       height: 100%;
+      backdrop-filter: blur(20px);
 
       .card-title {
-        color: $primary;
+        color: #ffffff;
         margin-bottom: 25px;
         padding-bottom: 15px;
-        border-bottom: 2px solid $bg-light;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         font-weight: 600;
 
         i {
           margin-right: 10px;
+          color: #64b5f6;
         }
       }
 
@@ -296,7 +303,7 @@ $bg-light: #f8f9fa;
           justify-content: space-between;
           align-items: center;
           padding: 12px 0;
-          border-bottom: 1px solid $bg-light;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
           &:last-child {
             border-bottom: none;
@@ -304,13 +311,13 @@ $bg-light: #f8f9fa;
 
           .info-label {
             font-weight: 500;
-            color: $secondary;
+            color: #b8c5d6;
             min-width: 140px;
           }
 
           .info-value {
             text-align: right;
-            color: $primary;
+            color: #ffffff;
             font-weight: 600;
 
             .country-flag {
@@ -342,17 +349,17 @@ $bg-light: #f8f9fa;
           .team-details {
             h4 {
               margin-bottom: 15px;
-              color: $primary;
+              color: #ffffff;
             }
 
             .international-stats {
               .stat {
                 display: inline-block;
                 margin-right: 20px;
-                color: $secondary;
+                color: #b8c5d6;
 
                 strong {
-                  color: $primary;
+                  color: #ffffff;
                 }
               }
             }
@@ -363,25 +370,27 @@ $bg-light: #f8f9fa;
 
     .status-section {
       .status-card {
-        background: $white;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         border-radius: 15px;
         padding: 25px;
         margin-bottom: 20px;
         border-left: 5px solid;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 
         &.injury {
-          border-left-color: #e74c3c;
+          border-left-color: #ff6b6b;
 
           .status-title {
-            color: #e74c3c;
+            color: #ff6b6b;
           }
         }
 
         &.absence {
-          border-left-color: #f39c12;
+          border-left-color: #ffa726;
 
           .status-title {
-            color: #f39c12;
+            color: #ffa726;
           }
         }
 
@@ -397,7 +406,7 @@ $bg-light: #f8f9fa;
         .status-content {
           p {
             margin-bottom: 8px;
-            color: $secondary;
+            color: #b8c5d6;
 
             &:last-child {
               margin-bottom: 0;
