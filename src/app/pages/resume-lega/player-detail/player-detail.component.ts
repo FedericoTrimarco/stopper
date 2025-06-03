@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { LegaService } from "../lega.service";
-import { Location } from "@angular/common";
+import { Location, CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-player-detail",
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: "./player-detail.component.html",
   styleUrl: "./player-detail.component.scss",
   providers: [LegaService],

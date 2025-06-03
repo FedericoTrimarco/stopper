@@ -1,3 +1,9 @@
+// SCSS Variables
+$primary: #007bff;
+$secondary: #6c757d;
+$white: #ffffff;
+$dark: #343a40;
+$bg-light: #f8f9fa;
 
 .player-detail {
   min-height: 100vh;
@@ -5,7 +11,7 @@
 
   .detail-header {
     margin-bottom: 30px;
-    
+
     .btn-back {
       background: transparent;
       border: 2px solid $primary;
@@ -14,12 +20,12 @@
       border-radius: 25px;
       transition: all 0.3s ease;
       font-weight: 500;
-      
+
       &:hover {
         background: $primary;
         color: $white;
       }
-      
+
       i {
         margin-right: 8px;
       }
@@ -29,13 +35,13 @@
   .loading-container {
     text-align: center;
     padding: 100px 0;
-    
+
     .loader-wrapper {
       display: flex;
       justify-content: center;
       margin-bottom: 30px;
       position: relative;
-      
+
       .loader {
         position: relative;
         display: grid;
@@ -53,7 +59,7 @@
           transform: scale(0.0);
           transform-origin: center center;
           animation: loader 2s infinite linear;
-          
+
           &:nth-of-type(1),
           &:nth-of-type(5),
           &:nth-of-type(9) {
@@ -96,7 +102,7 @@
   .error-container {
     text-align: center;
     padding: 100px 0;
-    
+
     .center-content {
       display: flex;
       flex-direction: column;
@@ -152,19 +158,19 @@
       .player-main-info {
         .player-title {
           margin-bottom: 30px;
-          
+
           h1 {
             margin-bottom: 10px;
             color: $primary;
             font-weight: 700;
           }
-          
+
           .full-name {
             color: $secondary;
             margin-bottom: 15px;
             font-style: italic;
           }
-          
+
           .position-info {
             .main-position {
               background: $primary;
@@ -174,7 +180,7 @@
               font-size: 14px;
               font-weight: 500;
             }
-            
+
             .second-position {
               color: $secondary;
               margin-left: 10px;
@@ -185,37 +191,37 @@
 
         .current-club {
           margin-bottom: 30px;
-          
+
           .club-badge {
             display: flex;
             align-items: center;
             background: $bg-light;
             padding: 20px;
             border-radius: 10px;
-            
+
             img {
               width: 60px;
               height: 60px;
               margin-right: 20px;
               object-fit: contain;
             }
-            
+
             .club-details {
               h4 {
                 margin-bottom: 10px;
                 color: $primary;
               }
-              
+
               .league-info {
                 display: flex;
                 align-items: center;
-                
+
                 .league-logo {
                   width: 20px;
                   height: 20px;
                   margin-right: 8px;
                 }
-                
+
                 span {
                   color: $secondary;
                   font-size: 14px;
@@ -232,25 +238,25 @@
             padding: 25px;
             border-radius: 15px;
             text-align: center;
-            
+
             .value-amount {
               font-size: 2.5rem;
               font-weight: 700;
               margin-bottom: 5px;
-              
+
               .value-unit {
                 font-size: 1rem;
                 font-weight: 400;
                 opacity: 0.8;
               }
             }
-            
+
             .value-label {
               font-size: 16px;
               margin-bottom: 10px;
               opacity: 0.9;
             }
-            
+
             .last-update {
               font-size: 12px;
               opacity: 0.7;
@@ -278,7 +284,7 @@
         padding-bottom: 15px;
         border-bottom: 2px solid $bg-light;
         font-weight: 600;
-        
+
         i {
           margin-right: 10px;
         }
@@ -291,22 +297,22 @@
           align-items: center;
           padding: 12px 0;
           border-bottom: 1px solid $bg-light;
-          
+
           &:last-child {
             border-bottom: none;
           }
-          
+
           .info-label {
             font-weight: 500;
             color: $secondary;
             min-width: 140px;
           }
-          
+
           .info-value {
             text-align: right;
             color: $primary;
             font-weight: 600;
-            
+
             .country-flag {
               width: 20px;
               height: 15px;
@@ -320,31 +326,31 @@
 
     .international-section {
       margin-bottom: 30px;
-      
+
       .international-info {
         .team-badge {
           display: flex;
           align-items: center;
-          
+
           img {
             width: 60px;
             height: 60px;
             margin-right: 20px;
             object-fit: contain;
           }
-          
+
           .team-details {
             h4 {
               margin-bottom: 15px;
               color: $primary;
             }
-            
+
             .international-stats {
               .stat {
                 display: inline-block;
                 margin-right: 20px;
                 color: $secondary;
-                
+
                 strong {
                   color: $primary;
                 }
@@ -362,37 +368,37 @@
         padding: 25px;
         margin-bottom: 20px;
         border-left: 5px solid;
-        
+
         &.injury {
           border-left-color: #e74c3c;
-          
+
           .status-title {
             color: #e74c3c;
           }
         }
-        
+
         &.absence {
           border-left-color: #f39c12;
-          
+
           .status-title {
             color: #f39c12;
           }
         }
-        
+
         .status-title {
           margin-bottom: 15px;
           font-weight: 600;
-          
+
           i {
             margin-right: 10px;
           }
         }
-        
+
         .status-content {
           p {
             margin-bottom: 8px;
             color: $secondary;
-            
+
             &:last-child {
               margin-bottom: 0;
             }
@@ -408,7 +414,7 @@
   .player-detail {
     .player-header {
       padding: 20px;
-      
+
       .player-image-section {
         .player-main-image {
           .player-photo {
@@ -417,7 +423,7 @@
           }
         }
       }
-      
+
       .player-main-info {
         .market-value {
           .value-card {
@@ -428,33 +434,33 @@
         }
       }
     }
-    
+
     .info-card {
       padding: 20px;
-      
+
       .info-grid {
         .info-item {
           flex-direction: column;
           align-items: flex-start;
-          
+
           .info-label {
             margin-bottom: 5px;
             min-width: auto;
           }
-          
+
           .info-value {
             text-align: left;
           }
         }
       }
     }
-    
+
     .international-section {
       .international-info {
         .team-badge {
           flex-direction: column;
           text-align: center;
-          
+
           img {
             margin-right: 0;
             margin-bottom: 15px;
@@ -468,15 +474,15 @@
 @media (max-width: 576px) {
   .player-detail {
     padding: 30px 0;
-    
+
     .detail-header {
       margin-bottom: 20px;
     }
-    
+
     .player-header {
       margin-bottom: 20px;
     }
-    
+
     .info-card {
       margin-bottom: 20px;
     }
