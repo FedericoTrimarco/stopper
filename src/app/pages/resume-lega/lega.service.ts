@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 // Interfaces per il service
 export interface Club {
@@ -79,25 +79,24 @@ export interface SquadApiResponse {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class LegaService {
-  
   /* private readonly API_KEY = '94ed4b0529mshcb3677c819fbd4ap1259dajsn912a528b1ed0';
   private readonly API_HOST = 'transfermarkt6.p.rapidapi.com';
   private readonly BASE_URL = 'https://transfermarkt6.p.rapidapi.com'; */
 
-  
-  private readonly API_KEY = 'c1f1e600f3msh72510c8e903218cp1d2c1djsn28357e13d6db';
-  private readonly API_HOST = 'transfermarkt6.p.rapidapi.com';
-  private readonly BASE_URL = 'https://transfermarkt6.p.rapidapi.com';
+  private readonly API_KEY =
+    "5289a318e1msh5cb4ba830b33909p1487ebjsn62bde11640b6";
+  private readonly API_HOST = "transfermarkt6.p.rapidapi.com";
+  private readonly BASE_URL = "https://transfermarkt6.p.rapidapi.com";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
-      'x-rapidapi-key': this.API_KEY,
-      'x-rapidapi-host': this.API_HOST
+      "x-rapidapi-key": this.API_KEY,
+      "x-rapidapi-host": this.API_HOST,
     });
   }
 
@@ -106,13 +105,11 @@ export class LegaService {
    */
   loadNewsLega(): Observable<any> {
     const url = `${this.BASE_URL}/competitions/news`;
-    const params = new HttpParams()
-      .set('id', 'it4A')
-      .set('domain', 'it');
+    const params = new HttpParams().set("id", "it4A").set("domain", "it");
 
     return this.http.get(url, {
       headers: this.getHeaders(),
-      params: params
+      params: params,
     });
   }
 
@@ -122,13 +119,11 @@ export class LegaService {
    */
   loadGironeClubs(gironeId: string): Observable<ApiResponse> {
     const url = `${this.BASE_URL}/competitions/clubs`;
-    const params = new HttpParams()
-      .set('id', gironeId)
-      .set('domain', 'it');
+    const params = new HttpParams().set("id", gironeId).set("domain", "it");
 
     return this.http.get<ApiResponse>(url, {
       headers: this.getHeaders(),
-      params: params
+      params: params,
     });
   }
 
@@ -137,16 +132,19 @@ export class LegaService {
    * @param clubId - ID della squadra
    * @param seasonId - ID della stagione (default: 2024)
    */
-  loadClubSquad(clubId: string, seasonId: string = '2024'): Observable<SquadApiResponse> {
+  loadClubSquad(
+    clubId: string,
+    seasonId: string = "2024",
+  ): Observable<SquadApiResponse> {
     const url = `${this.BASE_URL}/clubs/squad`;
     const params = new HttpParams()
-      .set('id', clubId)
-      .set('seasonId', seasonId)
-      .set('domain', 'it');
+      .set("id", clubId)
+      .set("seasonId", seasonId)
+      .set("domain", "it");
 
     return this.http.get<SquadApiResponse>(url, {
       headers: this.getHeaders(),
-      params: params
+      params: params,
     });
   }
 
@@ -155,15 +153,13 @@ export class LegaService {
    * @param clubId - ID della squadra
    * @param seasonId - ID della stagione
    */
-  loadClubStats(clubId: string, seasonId: string = '2024'): Observable<any> {
+  loadClubStats(clubId: string, seasonId: string = "2024"): Observable<any> {
     const url = `${this.BASE_URL}/clubs/stats`;
-    const params = new HttpParams()
-      .set('id', clubId)
-      .set('seasonId', seasonId);
+    const params = new HttpParams().set("id", clubId).set("seasonId", seasonId);
 
     return this.http.get(url, {
       headers: this.getHeaders(),
-      params: params
+      params: params,
     });
   }
 
@@ -172,15 +168,13 @@ export class LegaService {
    * @param clubId - ID della squadra
    * @param seasonId - ID della stagione
    */
-  loadClubResults(clubId: string, seasonId: string = '2024'): Observable<any> {
+  loadClubResults(clubId: string, seasonId: string = "2024"): Observable<any> {
     const url = `${this.BASE_URL}/clubs/results`;
-    const params = new HttpParams()
-      .set('id', clubId)
-      .set('seasonId', seasonId);
+    const params = new HttpParams().set("id", clubId).set("seasonId", seasonId);
 
     return this.http.get(url, {
       headers: this.getHeaders(),
-      params: params
+      params: params,
     });
   }
 
@@ -189,19 +183,19 @@ export class LegaService {
    * @param playerId - ID del giocatore
    */
 
-  loadPlayerProfile(playerId: number):Promise<any>{
-    const params = new HttpParams()
-    .set('id', playerId)
-    .set('domain', 'it');
-    
+  loadPlayerProfile(playerId: number): Promise<any> {
+    const params = new HttpParams().set("id", playerId).set("domain", "it");
+
     const body = {
       headers: this.getHeaders(),
-      params: params
-    }
-    
-    return this.http.get(`${this.BASE_URL}/players/profile`, body ).toPromise().then(
-      res => res).catch((err) => console.error(err));
-      
+      params: params,
+    };
+
+    return this.http
+      .get(`${this.BASE_URL}/players/profile`, body)
+      .toPromise()
+      .then((res) => res)
+      .catch((err) => console.error(err));
   }
 
   /**
