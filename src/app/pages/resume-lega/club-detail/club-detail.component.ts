@@ -130,8 +130,14 @@ export class ClubDetailComponent implements OnInit {
     // Filtro per posizione
     if (this.selectedPosition !== 'all') {
       filtered = filtered.filter(player => {
-        if (!player.positions) return false;
-        return player.positions.first?.group === this.selectedPosition ||
+        if (!player.positions?.first) return false;
+        
+        // Per i portieri, verifica anche il flag isGoalkeeper
+        if (this.selectedPosition === 'Torwart') {
+          return player.isGoalkeeper || player.positions.first.group === 'Torwart';
+        }
+        
+        return player.positions.first.group === this.selectedPosition ||
                player.positions.second?.group === this.selectedPosition ||
                player.positions.third?.group === this.selectedPosition;
       });
@@ -140,10 +146,26 @@ export class ClubDetailComponent implements OnInit {
     // Filtro per ricerca
     if (this.searchTerm.trim()) {
       const term = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(player => 
-        player.name.toLowerCase().includes(term) ||
-        player.nationalities?.some(nat => nat.name.toLowerCase().includes(term))
-      );
+      filtered = filtered.filter(player => {
+        // Ricerca nel nome del giocatore
+        const nameMatch = player.name?.toLowerCase().includes(term);
+        
+        // Ricerca nelle nazionalità
+        const nationalityMatch = player.nationalities?.some(nat => 
+          nat.name?.toLowerCase().includes(term)
+        );
+        
+        // Ricerca nel numero di maglia
+        const shirtNumberMatch = player.shirtNumber?.toString().includes(term);
+        
+        // Ricerca nelle posizioni
+        const positionMatch = player.positions?.first?.name?.toLowerCase().includes(term) ||
+                             player.positions?.first?.shortName?.toLowerCase().includes(term) ||
+                             player.positions?.second?.name?.toLowerCase().includes(term) ||
+                             player.positions?.third?.name?.toLowerCase().includes(term);
+        
+        return nameMatch || nationalityMatch || shirtNumberMatch || positionMatch;
+      });
     }
     
     return filtered;
@@ -153,13 +175,28 @@ export class ClubDetailComponent implements OnInit {
     const grouped: { [key: string]: SquadPlayer[] } = {};
     
     this.filteredPlayers.forEach(player => {
-      if (player.positions?.first) {
-        const positionGroup = player.positions.first.group;
-        if (!grouped[positionGroup]) {
-          grouped[positionGroup] = [];
-        }
-        grouped[positionGroup].push(player);
+      let positionGroup = 'Sconosciuto';
+      
+      // Determina il gruppo di posizione principale
+      if (player.isGoalkeeper) {
+        positionGroup = 'Torwart';
+      } else if (player.positions?.first?.group) {
+        positionGroup = player.positions.first.group;
       }
+      
+      if (!grouped[positionGroup]) {
+        grouped[positionGroup] = [];
+      }
+      grouped[positionGroup].push(player);
+    });
+    
+    // Ordina i giocatori per numero di maglia all'interno di ogni posizione
+    Object.keys(grouped).forEach(position => {
+      grouped[position].sort((a, b) => {
+        const numA = parseInt(a.shirtNumber) || 999;
+        const numB = parseInt(b.shirtNumber) || 999;
+        return numA - numB;
+      });
     });
     
     return grouped;
@@ -199,8 +236,32 @@ export class ClubDetailComponent implements OnInit {
       'Torwart': 'Portieri',
       'Abwehr': 'Difensori', 
       'Mittelfeld': 'Centrocampisti',
-      'Sturm': 'Attaccanti'
+      'Sturm': 'Attaccanti',
+      'Sconosciuto': 'Altri'
     };
     return translations[group] || group;
+  }
+
+  // Helper per ordinare le posizioni
+  getPositionOrder(): string[] {
+    return ['Torwart', 'Abwehr', 'Mittelfeld', 'Sturm', 'Sconosciuto'];
+  }
+
+  // Getter per le posizioni ordinate
+  get orderedPositions(): string[] {
+    const availablePositions = Object.keys(this.playersByPosition);
+    const positionOrder = this.getPositionOrder();
+    
+    return positionOrder.filter(position => availablePositions.includes(position));
+  }
+
+  // Helper per verificare se un giocatore è capitano
+  isCaptain(player: SquadPlayer): boolean {
+    return player.captain === true;
+  }
+
+  // Helper per verificare se un giocatore è in prestito
+  isOnLoan(player: SquadPlayer): boolean {
+    return player.isLoan === true;
   }
 }
