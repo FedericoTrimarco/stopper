@@ -141,7 +141,8 @@ export class LegaService {
     const url = `${this.BASE_URL}/clubs/squad`;
     const params = new HttpParams()
       .set('id', clubId)
-      .set('seasonId', seasonId);
+      .set('seasonId', seasonId)
+      .set('domain', 'it');
 
     return this.http.get<SquadApiResponse>(url, {
       headers: this.getHeaders(),
