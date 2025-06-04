@@ -43,7 +43,6 @@ export class GironeDetailComponent implements OnInit {
     if(storedClubs != null){
       this.isLoading = false;
       this.hasError = false;
-      console.log(this.gironeLetter);
       
       this.clubs = JSON.parse(storedClubs);
     } else {
@@ -65,11 +64,12 @@ export class GironeDetailComponent implements OnInit {
           this.clubs = response.data.clubs;
   
   
+          localStorage.setItem(`clubsGironeDetail${this.gironeLetter}`, JSON.stringify(this.clubs));
         } else if (!this.hasError) {
           this.clubs = [];
+          localStorage.removeItem(`clubsGironeDetail${this.gironeLetter}`);
         }
   
-        localStorage.setItem(`clubsGironeDetail${this.gironeLetter}`, JSON.stringify(this.clubs));
       });
     }
 

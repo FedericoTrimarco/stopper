@@ -97,31 +97,54 @@ export class ClubDetailComponent implements OnInit {
   }
 
   loadClubData(): void {
-    this.isLoading = true;
-    this.hasError = false;
+
+    const storedPlayers = localStorage.getItem(`playersSquad${this.clubId}`);
     
-    this.legaService.loadClubSquad(this.clubId, this.seasonId).pipe(
-      catchError(error => {
-        console.error('Errore nel caricamento della squadra:', error);
-        this.hasError = true;
-        this.errorMessage = 'Errore nel caricamento dei dati della squadra';
-        return of(null);
-      }),
-      finalize(() => {
-        this.isLoading = false;
-      })
-    ).subscribe(response => {
-      if (response?.data?.squad) {
-        // Processa i dati del club se disponibili
-        this.clubInfo = response.data.club || { 
-          name: 'Squadra', 
-          image: 'assets/images/default-club-logo.png' 
-        };
-        this.players = response.data.squad;
-      } else if (!this.hasError) {
-        this.players = [];
+    if(storedPlayers != null){
+      this.isLoading = false;
+      this.hasError = false;
+      
+      this.players = JSON.parse(storedPlayers);
+
+      const storedClubInfo = localStorage.getItem(`clubInfo${this.clubId}`);
+
+      if(storedClubInfo != null){
+        this.clubInfo = storedClubInfo;
       }
-    });
+    } else {
+
+      this.isLoading = true;
+      this.hasError = false;
+      
+      this.legaService.loadClubSquad(this.clubId, this.seasonId).pipe(
+        catchError(error => {
+          console.error('Errore nel caricamento della squadra:', error);
+          this.hasError = true;
+          this.errorMessage = 'Errore nel caricamento dei dati della squadra';
+          return of(null);
+        }),
+        finalize(() => {
+          this.isLoading = false;
+        })
+      ).subscribe(response => {
+        if (response?.data?.squad) {
+          // Processa i dati del club se disponibili
+          this.clubInfo = response.data.club || { 
+            name: 'Squadra', 
+            image: 'assets/images/default-club-logo.png' 
+          };
+          this.players = response.data.squad;
+  
+          localStorage.setItem(`playersSquad${this.clubId}`, JSON.stringify(this.players));
+          localStorage.setItem(`clubInfo${this.clubId}`, JSON.stringify(this.clubInfo));
+          
+        } else if (!this.hasError) {
+          this.players = [];
+          localStorage.removeItem(`playersSquad${this.clubId}`);
+          localStorage.removeItem(`clubInfo${this.clubId}`);
+        }
+      });
+    }
   }
 
   get filteredPlayers(): SquadPlayer[] {
@@ -211,7 +234,7 @@ export class ClubDetailComponent implements OnInit {
   }
 
   onImageError(event: any): void {
-    event.target.src = 'assets/images/default-player.png';
+    event.target.src = 'https://img.a.transfermarkt.technology/portrait/medium/default.jpg?lm=1';
   }
 
   trackByPlayer(index: number, player: SquadPlayer): string {
