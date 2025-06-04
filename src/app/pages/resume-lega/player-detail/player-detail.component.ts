@@ -43,12 +43,20 @@ export class PlayerDetailComponent implements OnInit {
     this.hasError = false;
     this.errorMessage = "";
 
-    this.legaService.loadPlayerProfile(this.idPlayer).then((res) => {
-      if (res != null && res.data != null && res.data.playerProfile != null) {
-        this.playerDetail = res.data.playerProfile;
-        this.isLoading = false;
-        this.hasError = false;
-      } else {
+    this.legaService.loadPlayerProfile(this.idPlayer).subscribe({
+      next: (res) => {
+        if (res != null && res.data != null && res.data.playerProfile != null) {
+          this.playerDetail = res.data.playerProfile;
+          this.isLoading = false;
+          this.hasError = false;
+        } else {
+          this.isLoading = false;
+          this.hasError = true;
+          this.errorMessage = "Errore durante la ricerca del giocatore";
+        }
+      },
+      error: (error) => {
+        console.error('Errore nel caricamento del profilo giocatore:', error);
         this.isLoading = false;
         this.hasError = true;
         this.errorMessage = "Errore durante la ricerca del giocatore";
