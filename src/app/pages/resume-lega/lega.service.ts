@@ -88,7 +88,7 @@ export class LegaService {
   private readonly BASE_URL = 'https://transfermarkt6.p.rapidapi.com'; */
 
   
-  private readonly API_KEY = 'f7c9b48453msh0127799b22c7f5ep1f89b5jsn2b228e8ae60f';
+  private readonly API_KEY = 'c1f1e600f3msh72510c8e903218cp1d2c1djsn28357e13d6db';
   private readonly API_HOST = 'transfermarkt6.p.rapidapi.com';
   private readonly BASE_URL = 'https://transfermarkt6.p.rapidapi.com';
 
