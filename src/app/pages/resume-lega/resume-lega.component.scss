@@ -11,9 +11,10 @@
 .squadre-card {
   background-color: #0e1621;
   color: #fff;
+  cursor: pointer;
   border-radius: 14px;
   padding: 16px 20px;
-  height: 500px; // Altezza fissa per uniformità
+  // height: 500px; // Altezza fissa per uniformità
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   font-family: 'Segoe UI', sans-serif;
   display: flex;

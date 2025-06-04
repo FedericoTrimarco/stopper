@@ -57,6 +57,6 @@ export class PlayerDetailComponent implements OnInit {
   }
 
   onImageError(event: any): void {
-    event.target.src = "assets/images/default-player.png";
+    event.target.src = "https://img.a.transfermarkt.technology/portrait/medium/default.jpg?lm=1";
   }
 }

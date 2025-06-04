@@ -37,34 +37,50 @@ export class GironeDetailComponent implements OnInit {
   }
 
   loadGironeData(): void {
-    this.isLoading = true;
-    this.hasError = false;
+
+    const storedClubs = localStorage.getItem(`clubsGironeDetail${this.gironeLetter}`);
     
-    this.legaService.loadGironeClubs(this.gironeId).pipe(
-      catchError(error => {
-        console.error('Errore nel caricamento del girone:', error);
-        this.hasError = true;
-        this.errorMessage = 'Errore nel caricamento dei dati del girone';
-        return of(null);
-      }),
-      finalize(() => {
-        this.isLoading = false;
-      })
-    ).subscribe(response => {
-      if (response?.data?.clubs) {
-        this.clubs = response.data.clubs;
-      } else if (!this.hasError) {
-        this.clubs = [];
-      }
-    });
+    if(storedClubs != null){
+      this.isLoading = false;
+      this.hasError = false;
+      console.log(this.gironeLetter);
+      
+      this.clubs = JSON.parse(storedClubs);
+    } else {
+      this.isLoading = true;
+      this.hasError = false;
+      
+      this.legaService.loadGironeClubs(this.gironeId).pipe(
+        catchError(error => {
+          console.error('Errore nel caricamento del girone:', error);
+          this.hasError = true;
+          this.errorMessage = 'Errore nel caricamento dei dati del girone';
+          return of(null);
+        }),
+        finalize(() => {
+          this.isLoading = false;
+        })
+      ).subscribe(response => {
+        if (response?.data?.clubs) {
+          this.clubs = response.data.clubs;
+  
+  
+        } else if (!this.hasError) {
+          this.clubs = [];
+        }
+  
+        localStorage.setItem(`clubsGironeDetail${this.gironeLetter}`, JSON.stringify(this.clubs));
+      });
+    }
+
   }
 
   onClubClick(club: Club): void {
-    this.router.navigate(['/squadra', club.id]);
+    this.router.navigate(['resume/club-detail', club.id]);
   }
 
   onBackClick(): void {
-    this.router.navigate(['/serie-d']);
+    this.router.navigate(['/resume']);
   }
 
   onImageError(event: any): void {

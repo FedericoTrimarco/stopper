@@ -38,8 +38,8 @@ export class ResumeLegaComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeGironi();
-    this.loadAllGironi();
-    this.loadNews();
+    // this.loadAllGironi();
+    // this.loadNews();
   }
 
   /**
@@ -106,9 +106,7 @@ export class ResumeLegaComponent implements OnInit {
   loadAllGironi(): void {
     // Crea un array di observable per tutti i gironi
     const requests = this.gironi.map(girone =>
-      this.legaService.loadGironeClubs(
-        this.legaService.generateGironeId(girone.letter)
-      ).pipe(
+      this.legaService.loadGironeClubs(this.legaService.generateGironeId(girone.letter)).pipe(
         catchError(err => {
           console.error(`Errore caricamento Girone ${girone.letter}:`, err);
           return of(null);
