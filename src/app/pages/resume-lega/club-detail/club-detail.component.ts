@@ -77,10 +77,10 @@ export class ClubDetailComponent implements OnInit {
   // Posizioni disponibili (aggiornate per il nuovo formato)
   positions = [
     { value: 'all', label: 'Tutte le posizioni' },
-    { value: 'Torwart', label: 'Portiere' },
-    { value: 'Abwehr', label: 'Difensore' },
-    { value: 'Mittelfeld', label: 'Centrocampista' },
-    { value: 'Sturm', label: 'Attaccante' }
+    { value: 'Portiere', label: 'Portiere' },
+    { value: 'Difesa', label: 'Difensore' },
+    { value: 'Centrocampo', label: 'Centrocampista' },
+    { value: 'Attacco', label: 'Attaccante' }
   ];
 
   constructor(
@@ -111,6 +111,10 @@ export class ClubDetailComponent implements OnInit {
       if(storedClubInfo != null){
         this.clubInfo = storedClubInfo;
       }
+
+      console.log("player storage >> ", this.players);
+      console.log("clubInfo storage >> ", this.clubInfo);
+      
     } else {
 
       this.isLoading = true;
@@ -145,6 +149,7 @@ export class ClubDetailComponent implements OnInit {
         }
       });
     }
+    
   }
 
   get filteredPlayers(): SquadPlayer[] {
@@ -156,8 +161,8 @@ export class ClubDetailComponent implements OnInit {
         if (!player.positions?.first) return false;
         
         // Per i portieri, verifica anche il flag isGoalkeeper
-        if (this.selectedPosition === 'Torwart') {
-          return player.isGoalkeeper || player.positions.first.group === 'Torwart';
+        if (this.selectedPosition === 'Portiere') {
+          return player.isGoalkeeper || player.positions.first.group === 'Portiere';
         }
         
         return player.positions.first.group === this.selectedPosition ||
@@ -202,7 +207,7 @@ export class ClubDetailComponent implements OnInit {
       
       // Determina il gruppo di posizione principale
       if (player.isGoalkeeper) {
-        positionGroup = 'Torwart';
+        positionGroup = 'Portiere';
       } else if (player.positions?.first?.group) {
         positionGroup = player.positions.first.group;
       }
@@ -256,10 +261,10 @@ export class ClubDetailComponent implements OnInit {
   // Helper per tradurre i gruppi di posizione
   getPositionGroupLabel(group: string): string {
     const translations: { [key: string]: string } = {
-      'Torwart': 'Portieri',
-      'Abwehr': 'Difensori', 
-      'Mittelfeld': 'Centrocampisti',
-      'Sturm': 'Attaccanti',
+      'Portiere': 'Portieri',
+      'Difesa': 'Difensori', 
+      'Centrocampo': 'Centrocampisti',
+      'Attacco': 'Attaccanti',
       'Sconosciuto': 'Altri'
     };
     return translations[group] || group;
@@ -267,7 +272,7 @@ export class ClubDetailComponent implements OnInit {
 
   // Helper per ordinare le posizioni
   getPositionOrder(): string[] {
-    return ['Torwart', 'Abwehr', 'Mittelfeld', 'Sturm', 'Sconosciuto'];
+    return ['Portiere', 'Difesa', 'Centrocampo', 'Attacco', 'Sconosciuto'];
   }
 
   // Getter per le posizioni ordinate
