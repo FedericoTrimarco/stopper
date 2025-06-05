@@ -189,15 +189,19 @@ export class LegaService {
    * @param playerId - ID del giocatore
    */
 
-  loadPlayerProfile(playerId: number): Observable<any> {
+  loadPlayerProfile(playerId: number):Promise<any>{
     const params = new HttpParams()
-      .set('id', playerId.toString())
-      .set('domain', 'it');
+    .set('id', playerId)
+    .set('domain', 'it');
     
-    return this.http.get(`${this.BASE_URL}/players/profile`, {
+    const body = {
       headers: this.getHeaders(),
       params: params
-    });
+    }
+    
+    return this.http.get(`${this.BASE_URL}/players/profile`, body ).toPromise().then(
+      res => res).catch((err) => console.error(err));
+      
   }
 
   /**

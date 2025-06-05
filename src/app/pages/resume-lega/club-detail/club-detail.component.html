@@ -76,7 +76,7 @@
       <!-- Players Grid -->
       <div class="players-section">
         <!-- Raggruppamento per posizione -->
-        <div *ngFor="let position of orderedPositions" class="position-group">
+        <div *ngFor="let position of Object.keys(playersByPosition)" class="position-group">
           <h3 class="position-title">
             <i class="fa fa-users"></i>
             {{ getPositionGroupLabel(position) }}

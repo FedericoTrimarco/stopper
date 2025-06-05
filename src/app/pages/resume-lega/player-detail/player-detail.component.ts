@@ -47,7 +47,6 @@ export class PlayerDetailComponent implements OnInit {
       
       this.playerDetail = JSON.parse(storedPlayer);
 
-<<<<<<< HEAD
       console.log("player detail storage >> ", this.playerDetail);
       
     } else {
@@ -57,39 +56,20 @@ export class PlayerDetailComponent implements OnInit {
       this.errorMessage = "";
   
       this.legaService.loadPlayerProfile(this.idPlayer).then((res) => {
-=======
-    this.legaService.loadPlayerProfile(this.idPlayer).subscribe({
-      next: (res) => {
->>>>>>> 40133a7368a32f17430baaeb306f0d383260f306
         if (res != null && res.data != null && res.data.playerProfile != null) {
           this.playerDetail = res.data.playerProfile;
           this.isLoading = false;
           this.hasError = false;
-<<<<<<< HEAD
           localStorage.setItem(`playersDetail${this.idPlayer}`, JSON.stringify(this.playerDetail));
-=======
->>>>>>> 40133a7368a32f17430baaeb306f0d383260f306
         } else {
           this.isLoading = false;
           this.hasError = true;
           this.errorMessage = "Errore durante la ricerca del giocatore";
-<<<<<<< HEAD
           localStorage.setItem(`playersDetail${this.idPlayer}`, JSON.stringify(this.playerDetail));
         }
       });
 
     }
-=======
-        }
-      },
-      error: (error) => {
-        console.error('Errore nel caricamento del profilo giocatore:', error);
-        this.isLoading = false;
-        this.hasError = true;
-        this.errorMessage = "Errore durante la ricerca del giocatore";
-      }
-    });
->>>>>>> 40133a7368a32f17430baaeb306f0d383260f306
   }
 
   onImageError(event: any): void {

@@ -60,6 +60,7 @@ export class ClubDetailComponent implements OnInit {
   clubId: string = '';
   clubName: string = '';
   seasonId: string = '2024';
+  Object = Object;
   
   // Dati del club
   clubInfo: any = null;
