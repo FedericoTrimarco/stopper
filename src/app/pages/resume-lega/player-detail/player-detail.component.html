@@ -74,8 +74,8 @@
                             <!-- Club Info -->
                             <div class="current-club">
                                 <div class="club-badge">
-                                    <img [src]="playerDetail.clubImage" [alt]="playerDetail.club"
-                                        (error)="onImageError($event)">
+                                    <div class="club-logo"><img [src]="playerDetail.clubImage" [alt]="playerDetail.club"
+                                        (error)="onImageError($event)"></div>
                                     <div class="club-details">
                                         <h4>{{ playerDetail.club }}</h4>
                                         <div class="league-info">
@@ -184,7 +184,9 @@
                     </h3>
                     <div class="international-info">
                         <div class="team-badge">
-                            <img [src]="playerDetail.internationalTeamImage" [alt]="playerDetail.internationalTeam">
+                            <div class="club-logo">
+                                <img [src]="playerDetail.internationalTeamImage" [alt]="playerDetail.internationalTeam">
+                            </div>
                             <div class="team-details">
                                 <h4>{{ playerDetail.internationalTeam }}</h4>
                                 <div class="international-stats">

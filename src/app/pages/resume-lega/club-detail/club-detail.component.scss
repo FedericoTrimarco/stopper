@@ -1,13 +1,9 @@
-// SCSS Variables
-$primary: #007bff;
-$secondary: #6c757d;
-$white: #ffffff;
-$dark: #343a40;
-$bg-light: #f8f9fa;
+@import "../../../../../public/assets/scss/variables.scss";
 
 .club-detail {
   min-height: 100vh;
   padding: 50px 0;
+  padding-top: 100px;
 
   .container {
     max-width: 1200px;
@@ -18,28 +14,6 @@ $bg-light: #f8f9fa;
   // Header Section
   .detail-header {
     margin-bottom: 30px;
-
-    .btn-back {
-      background: transparent;
-      border: 2px solid $primary;
-      color: $primary;
-      padding: 12px 20px;
-      border-radius: 25px;
-      transition: all 0.3s ease;
-      font-weight: 500;
-      cursor: pointer;
-
-      &:hover {
-        background: $primary;
-        color: $white;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-      }
-
-      i {
-        margin-right: 8px;
-      }
-    }
 
     .club-header {
       background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
@@ -57,13 +31,12 @@ $bg-light: #f8f9fa;
         margin-bottom: 30px;
 
         .club-logo {
-          width: 100px;
-          height: 100px;
+          width: 110px;
+          height: 110px;
+          background: $third-color;
+          border-radius: 12px;
+          padding: 8px;
           object-fit: contain;
-          border-radius: 15px;
-          background: rgba(255, 255, 255, 0.05);
-          padding: 10px;
-          border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .club-title-info {
@@ -72,7 +45,7 @@ $bg-light: #f8f9fa;
           h1 {
             font-size: 2.5rem;
             font-weight: 700;
-            color: #ffffff;
+            color: $third-color;
             margin: 0 0 15px 0;
             line-height: 1.2;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -105,8 +78,8 @@ $bg-light: #f8f9fa;
         justify-content: center;
 
         .stat-card {
-          background: linear-gradient(135deg, $primary, $dark);
-          color: white;
+          background: linear-gradient(135deg, $info-color, #343a40);
+          color: $third-color;
           padding: 25px;
           border-radius: 15px;
           text-align: center;
@@ -143,7 +116,7 @@ $bg-light: #f8f9fa;
     border: 1px solid rgba(255, 255, 255, 0.1);
 
     h3 {
-      color: #ffffff;
+      color: $third-color;
       font-weight: 600;
       margin-bottom: 20px;
     }
@@ -156,8 +129,8 @@ $bg-light: #f8f9fa;
     }
 
     .btn {
-      background: $primary;
-      color: white;
+      background: $info-color;
+      color: $third-color;
       padding: 12px 24px;
       border-radius: 25px;
       font-weight: 600;
@@ -195,7 +168,7 @@ $bg-light: #f8f9fa;
           label {
             display: block;
             font-weight: 600;
-            color: #ffffff;
+            color: $third-color;
             margin-bottom: 10px;
             font-size: 0.95rem;
           }
@@ -209,10 +182,10 @@ $bg-light: #f8f9fa;
             font-size: 0.95rem;
             transition: all 0.3s ease;
             background: rgba(255, 255, 255, 0.05);
-            color: #ffffff;
+            color: $third-color;
 
             &:focus {
-              border-color: $primary;
+              border-color: $info-color;
               box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
               outline: none;
             }
@@ -224,7 +197,7 @@ $bg-light: #f8f9fa;
 
           .form-select option {
             background: #1a1a2e;
-            color: #ffffff;
+            color: $third-color;
           }
         }
       }
@@ -238,7 +211,7 @@ $bg-light: #f8f9fa;
           background: rgba(255, 255, 255, 0.1);
           padding: 6px 15px;
           border-radius: 15px;
-          color: #ffffff;
+          color: $third-color;
         }
       }
     }
@@ -253,21 +226,21 @@ $bg-light: #f8f9fa;
           gap: 12px;
           font-size: 1.5rem;
           font-weight: 700;
-          color: #ffffff;
+          color: $third-color;
           margin-bottom: 25px;
           padding: 20px;
           background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
           border-radius: 15px;
-          border-left: 5px solid $primary;
+          border-left: 5px solid $info-color;
           box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 
           i {
-            color: #64b5f6;
+            color: $info-color;
           }
 
           .position-count {
             font-size: 1rem;
-            color: #b8c5d6;
+            color: $third-color;;
             font-weight: 500;
             margin-left: auto;
           }
@@ -290,17 +263,20 @@ $bg-light: #f8f9fa;
             &:hover {
               transform: translateY(-8px);
               box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-              border-color: $primary;
+              border-color: $info-color;
             }
 
             .player-image-container {
               position: relative;
-              height: 220px;
               background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
               display: flex;
               align-items: center;
               justify-content: center;
               overflow: hidden;
+              border-radius: 20px;
+              max-height: 350px;
+              margin: 20px auto 0 auto;
+              aspect-ratio: 3/4;
 
               img {
                 width: 100%;
@@ -317,8 +293,8 @@ $bg-light: #f8f9fa;
                 position: absolute;
                 top: 10px;
                 right: 10px;
-                background: rgba(0, 0, 0, 0.8);
-                color: white;
+                background: $fourth-color;
+                color: $third-color;
                 padding: 4px 8px;
                 border-radius: 12px;
                 font-size: 12px;
@@ -329,24 +305,20 @@ $bg-light: #f8f9fa;
                 position: absolute;
                 top: 10px;
                 left: 10px;
-                background: #ffd700;
-                color: #000;
-                padding: 4px;
-                border-radius: 50%;
-                font-size: 10px;
-                width: 20px;
-                height: 20px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                background: $warning-color;
+                color: $fourth-color;
+                padding: 2px 6px;
+                border-radius: 8px;
+                font-size: 8px;
+                font-weight: bold;
               }
 
               .loan-badge {
                 position: absolute;
                 bottom: 10px;
                 left: 10px;
-                background: #ff6b6b;
-                color: white;
+                background: $danger-color;
+                color: $third-color;
                 padding: 2px 6px;
                 border-radius: 8px;
                 font-size: 8px;
@@ -360,7 +332,7 @@ $bg-light: #f8f9fa;
               .player-name {
                 font-size: 1.2rem;
                 font-weight: 700;
-                color: #ffffff;
+                color: $third-color;
                 margin: 0 0 15px 0;
                 line-height: 1.3;
               }
@@ -372,14 +344,16 @@ $bg-light: #f8f9fa;
                 gap: 5px;
 
                 .player-position {
-                  background: #007bff;
-                  color: white;
+                  background: $info-color;
+                  color: $third-color;
                   padding: 2px 8px;
                   border-radius: 12px;
                   font-size: 10px;
                 }
 
-                .player-age, .player-height, .player-foot {
+                .player-age,
+                .player-height,
+                .player-foot {
                   color: #666;
                   font-size: 11px;
                   background: #f8f9fa;
@@ -389,7 +363,9 @@ $bg-light: #f8f9fa;
               }
 
               .player-meta {
-                .player-nationality, .player-value {
+
+                .player-nationality,
+                .player-value {
                   display: block;
                   font-size: 11px;
                   color: #888;
@@ -427,7 +403,7 @@ $bg-light: #f8f9fa;
       border: 1px solid rgba(255, 255, 255, 0.1);
 
       h3 {
-        color: #ffffff;
+        color: $third-color;
         font-weight: 600;
         margin-bottom: 15px;
       }
@@ -455,12 +431,12 @@ $bg-light: #f8f9fa;
         width: 60px;
         height: 60px;
 
-        > div {
+        >div {
           position: relative;
           display: inline-block;
           width: 100%;
           height: 100%;
-          background: $primary;
+          background: $info-color;
           transform: scale(0.0);
           transform-origin: center center;
           animation: loader 2s infinite linear;
@@ -491,12 +467,15 @@ $bg-light: #f8f9fa;
         0% {
           transform: scale(0.0);
         }
+
         40% {
           transform: scale(1.0);
         }
+
         80% {
           transform: scale(1.0);
         }
+
         100% {
           transform: scale(0.0);
         }

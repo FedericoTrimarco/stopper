@@ -1,10 +1,10 @@
 // club-detail.component.ts
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LegaService } from '../lega.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { Location, CommonModule } from "@angular/common";
 
 // Interface per il nuovo formato dei dati
 interface SquadPlayer {
@@ -58,6 +58,7 @@ interface SquadPlayer {
 })
 export class ClubDetailComponent implements OnInit {
   clubId: string = '';
+  clubName: string = '';
   seasonId: string = '2024';
   Object = Object;
   
@@ -86,12 +87,14 @@ export class ClubDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private legaService: LegaService
+    private legaService: LegaService,
+    private location: Location,
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
       this.clubId = params['id'];
+      this.clubName = params['clubName'].split("-").join(" ");
       this.loadClubData();
     });
   }
@@ -133,10 +136,11 @@ export class ClubDetailComponent implements OnInit {
       ).subscribe(response => {
         if (response?.data?.squad) {
           // Processa i dati del club se disponibili
-          this.clubInfo = response.data.club || { 
+          this.clubInfo = { 
             name: 'Squadra', 
-            image: 'assets/images/default-club-logo.png' 
+            image: `https://tmssl.akamaized.net//images/wappen/medium/${this.clubId}.png` 
           };
+
           this.players = response.data.squad;
   
           localStorage.setItem(`playersSquad${this.clubId}`, JSON.stringify(this.players));
@@ -231,7 +235,7 @@ export class ClubDetailComponent implements OnInit {
   }
 
   onBackClick(): void {
-    this.router.navigate(['/serie-d']);
+    this.location.back();
   }
 
   onPlayerClick(player: SquadPlayer): void {
@@ -240,6 +244,10 @@ export class ClubDetailComponent implements OnInit {
 
   onImageError(event: any): void {
     event.target.src = 'https://img.a.transfermarkt.technology/portrait/medium/default.jpg?lm=1';
+  }
+
+  onImageClubError(event: any): void {
+    event.target.src = `https://tmssl.akamaized.net//images/wappen/medium/${this.clubId}.png`;
   }
 
   trackByPlayer(index: number, player: SquadPlayer): string {

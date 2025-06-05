@@ -1,17 +1,4 @@
-/**** Dark LAYOUT SECTION **/
-$light-color : #191f3c;
-// $dark-color: #1a213d;
-// $border-color :#242a46;
-$white-1:#f1f3f5;
-$white-2:#eaedef;
-$white-3:#e7eaec;
-$white-4:#dee2e6;
-$white-5:#cfd4da;
-$border-color:rgba(255, 255, 255, 0.08);
-// $border-color:rgba(255,255,255,0.2);
-$dark-color: #1c2440;
-
-
+@import "../variables.scss";
 
 body{
   &.dark{

@@ -1,8 +1,11 @@
+@import "../../../../../public/assets/scss/variables.scss";
+
 .girone-detail {
   min-height: 100vh;
-  background: linear-gradient(135deg, #0a0e1a 0%, #1a2332 100%);
-  color: #fff;
+  //background: linear-gradient(135deg, #0a0e1a 0%, #1a2332 100%);
+  color: $third-color;
   padding: 60px 0;
+  padding-top: 100px;
 }
 
 .detail-header {
@@ -11,8 +14,8 @@
 
 .btn-back {
   background: rgba(30, 203, 107, 0.1);
-  border: 1px solid #1ecb6b;
-  color: #1ecb6b;
+  border: 1px solid $secondary-color;
+  color: $secondary-color;
   padding: 12px 20px;
   border-radius: 8px;
   display: flex;
@@ -25,8 +28,8 @@
 }
 
 .btn-back:hover {
-  background: #1ecb6b;
-  color: #fff;
+  background: $secondary-color;
+  color: $third-color;
   transform: translateX(-4px);
 }
 
@@ -40,15 +43,16 @@
 .girone-title img {
   width: 80px;
   height: 80px;
-  background: #fff;
+  background: $third-color;
   padding: 8px;
   border-radius: 12px;
+  object-fit: contain;
 }
 
 .title-info h1 {
   font-size: 2.5rem;
   font-weight: bold;
-  color: #1ecb6b;
+  color: $third-color;
   margin: 0;
 }
 
@@ -73,22 +77,25 @@
 }
 
 .clubs-header h2 {
-  color: #1ecb6b;
+  color: $secondary-color;
   margin: 0;
 }
 
 .clubs-count {
   background: rgba(30, 203, 107, 0.1);
-  color: #1ecb6b;
+  color: $secondary-color;
   padding: 8px 16px;
   border-radius: 20px;
   font-weight: 600;
 }
 
 .club-card {
-  background: linear-gradient(135deg, #0e1621 0%, #1a2332 100%);
-  border-radius: 16px;
-  padding: 24px;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
   text-align: center;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   transition: all 0.3s ease;
@@ -107,7 +114,7 @@
 }
 
 .club-card:hover .club-overlay {
-  opacity: 1;
+  opacity: 0.9;
 }
 
 .club-image-container {
@@ -117,7 +124,7 @@
 .club-image-container img {
   width: 80px;
   height: 80px;
-  background: #fff;
+  background: $third-color;
   border-radius: 12px;
   padding: 8px;
   object-fit: contain;
@@ -126,7 +133,7 @@
 .club-name {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #fff;
+  color: $third-color;
   margin-bottom: 15px;
   line-height: 1.3;
   min-height: 50px;
@@ -142,7 +149,7 @@
 }
 
 .club-actions i {
-  color: #1ecb6b;
+  color: $secondary-color;
   font-size: 1.2rem;
   padding: 8px;
   border-radius: 8px;
@@ -151,7 +158,7 @@
 
 .club-actions i:hover {
   background: rgba(30, 203, 107, 0.1);
-  color: #22d176;
+  color: $secondary-color;
 }
 
 .club-overlay {
@@ -160,7 +167,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(30, 203, 107, 0.9);
+  background: $third-color;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -174,7 +181,7 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  color: #fff;
+  color: #242424;
   font-weight: 600;
 }
 

@@ -1,19 +1,18 @@
 <!-- girone-detail.component.html -->
 <section class="girone-detail">
   <div class="container">
-    
+
     <!-- Header con breadcrumb -->
     <div class="detail-header">
       <button class="btn-back" (click)="onBackClick()">
         <i class="fa fa-arrow-left"></i>
         Torna alla Serie D
       </button>
-      
+
       <div class="girone-title">
         <img src="https://tmssl.akamaized.net//images/logo/header/it4a.png" alt="Serie D">
         <div class="title-info">
           <h1>{{ gironeName }}</h1>
-          <p class="subtitle">{{ clubs.length }} squadre partecipanti</p>
         </div>
       </div>
     </div>
@@ -41,17 +40,13 @@
       </div>
 
       <div class="row">
-        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4"
-             *ngFor="let club of clubs; trackBy: trackByClub">
-          
+        <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let club of clubs; trackBy: trackByClub">
+
           <div class="club-card" (click)="onClubClick(club)">
             <div class="club-image-container">
-              <img [src]="club.image" 
-                   [alt]="club.name"
-                   (error)="onImageError($event)"
-                   loading="lazy" />
+              <img [src]="club.image" [alt]="club.name" (error)="onImageError($event)" loading="lazy" />
             </div>
-            
+
             <div class="club-info">
               <h3 class="club-name">{{ club.name }}</h3>
               <div class="club-actions">
@@ -60,7 +55,7 @@
                 <i class="fa fa-calendar" title="Partite"></i>
               </div>
             </div>
-            
+
             <div class="club-overlay">
               <div class="overlay-content">
                 <i class="fa fa-arrow-right"></i>
@@ -68,7 +63,7 @@
               </div>
             </div>
           </div>
-          
+
         </div>
       </div>
     </div>
@@ -82,4 +77,3 @@
 
   </div>
 </section>
-

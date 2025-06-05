@@ -76,7 +76,8 @@ export class GironeDetailComponent implements OnInit {
   }
 
   onClubClick(club: Club): void {
-    this.router.navigate(['resume/club-detail', club.id]);
+    let nameUrl = club.name.toLowerCase().replace(/\s+/g, '-');
+    this.router.navigate(['resume/club-detail', club.id, nameUrl]);
   }
 
   onBackClick(): void {

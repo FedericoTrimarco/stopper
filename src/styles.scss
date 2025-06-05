@@ -1,3 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "../public/assets/scss/app.scss";
+@import "../public/assets/scss/variables.scss";
+
+.btn-back {
+    background: rgba(30, 203, 107, 0.1);
+    border: 1px solid $secondary-color;
+    color: $secondary-color;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-bottom: 30px;
+    cursor: pointer;
+}
+
+.btn-back:hover {
+    background: $secondary-color;
+    color: #fff;
+    transform: translateX(-4px);
+}

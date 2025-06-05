@@ -39,21 +39,37 @@ export class PlayerDetailComponent implements OnInit {
   }
 
   loadPlayerProfile() {
-    this.isLoading = true;
-    this.hasError = false;
-    this.errorMessage = "";
+    const storedPlayer = localStorage.getItem(`playersDetail${this.idPlayer}`);
+    
+    if(storedPlayer != null){
+      this.isLoading = false;
+      this.hasError = false;
+      
+      this.playerDetail = JSON.parse(storedPlayer);
 
-    this.legaService.loadPlayerProfile(this.idPlayer).then((res) => {
-      if (res != null && res.data != null && res.data.playerProfile != null) {
-        this.playerDetail = res.data.playerProfile;
-        this.isLoading = false;
-        this.hasError = false;
-      } else {
-        this.isLoading = false;
-        this.hasError = true;
-        this.errorMessage = "Errore durante la ricerca del giocatore";
-      }
-    });
+      console.log("player detail storage >> ", this.playerDetail);
+      
+    } else {
+
+      this.isLoading = true;
+      this.hasError = false;
+      this.errorMessage = "";
+  
+      this.legaService.loadPlayerProfile(this.idPlayer).then((res) => {
+        if (res != null && res.data != null && res.data.playerProfile != null) {
+          this.playerDetail = res.data.playerProfile;
+          this.isLoading = false;
+          this.hasError = false;
+          localStorage.setItem(`playersDetail${this.idPlayer}`, JSON.stringify(this.playerDetail));
+        } else {
+          this.isLoading = false;
+          this.hasError = true;
+          this.errorMessage = "Errore durante la ricerca del giocatore";
+          localStorage.setItem(`playersDetail${this.idPlayer}`, JSON.stringify(this.playerDetail));
+        }
+      });
+
+    }
   }
 
   onImageError(event: any): void {

@@ -1,21 +1,18 @@
+@import "../../../../public/assets/scss/variables.scss";
+
 .about{
  overflow: visible; 
 }
 
 // Layout principale - lascia che Bootstrap gestisca le colonne
-.gironi-grid {
-  // Rimuoviamo le regole che interferiscono con Bootstrap
-}
 
 // Card base per ogni girone
 .squadre-card {
-  background-color: #0e1621;
-  color: #fff;
+  background-color: $fourth-color;
+  color: $third-color;
   cursor: pointer;
   border-radius: 14px;
   padding: 16px 20px;
-  // height: 500px; // Altezza fissa per uniformità
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   font-family: 'Segoe UI', sans-serif;
   display: flex;
   flex-direction: column;
@@ -45,7 +42,7 @@
   flex-shrink: 0;
   
   i {
-    color: #1ecb6b;
+    color: $secondary-color;
     margin-right: 6px;
   }
   
@@ -64,7 +61,7 @@
   align-items: center;
   
   &:hover {
-    color: #1ecb6b;
+    color: $secondary-color;
     
     i {
       color: #22d176;
@@ -87,7 +84,7 @@
   }
   
   i {
-    color: #1ecb6b;
+    color: $secondary-color;
     cursor: pointer;
     transition: color 0.2s ease;
     
@@ -141,7 +138,7 @@
     transform: translateX(4px);
     
     .club-name {
-      color: #1ecb6b;
+      color: $secondary-color;
     }
   }
 }
@@ -161,7 +158,7 @@
     flex-shrink: 0;
     
     &:error, &[src="assets/images/default-club-logo.png"] {
-      background: linear-gradient(45deg, #1ecb6b, #22d176);
+      background: linear-gradient(45deg, $secondary-color, #22d176);
     }
   }
   
@@ -180,7 +177,7 @@
   gap: 8px;
   
   i {
-    color: #1ecb6b;
+    color: $secondary-color;
     font-size: 0.9rem;
     cursor: pointer;
     padding: 4px;
@@ -197,7 +194,7 @@
 
 // Card statistiche
 .stats-card {
-  background: linear-gradient(135deg, #0e1621 0%, #1a2332 100%);
+  background: linear-gradient(135deg, $dark-color 0%, #1a2332 100%);
   color: #fff;
   border-radius: 14px;
   padding: 20px;
@@ -209,7 +206,7 @@
   
   h5 {
     margin-bottom: 20px;
-    color: #1ecb6b;
+    color: $secondary-color;
     
     i {
       margin-right: 8px;
@@ -236,7 +233,7 @@
   .stat-number {
     font-size: 2rem;
     font-weight: bold;
-    color: #1ecb6b;
+    color: $secondary-color;
     line-height: 1;
   }
   
@@ -250,7 +247,7 @@
 // Stati di loading ed errore
 .text-center {
   .fa-spinner {
-    color: #1ecb6b;
+    color: $secondary-color;
   }
   
   .fa-exclamation-triangle {
@@ -258,12 +255,12 @@
   }
   
   .btn-outline-success {
-    border-color: #1ecb6b;
-    color: #1ecb6b;
+    border-color: $secondary-color;
+    color: $secondary-color;
     
     &:hover {
-      background-color: #1ecb6b;
-      border-color: #1ecb6b;
+      background-color: $secondary-color;
+      border-color: $secondary-color;
       color: #fff;
     }
   }
@@ -389,7 +386,7 @@
   color: #888;
   
   i {
-    color: #1ecb6b;
+    color: $secondary-color;
     margin-right: 4px;
   }
 }
